@@ -33,7 +33,7 @@ const users = require("./routes/users");
 const recipes = require("./routes/recipes");
 const auth = require("./routes/auth");
 
-const port = 4000;
+const port = 3000;
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 app.use(morgan(":method :url :status :response-time ms"));
@@ -50,7 +50,7 @@ app.use(
 app.use(auth);
 app.use("/users",users);
 app.use("/recipes",recipes);
-app.use((req,res) => res.sendStatus(404));
+// app.use((req,res) => res.sendStatus(404));
 
 
 app.get("/alive", (req,res) => {
@@ -58,5 +58,5 @@ app.get("/alive", (req,res) => {
 });
 
 app.listen(port, () => {
-    console.log('Example app listening on port 4000');
+    console.log('Example app listening on port 3000');
 });
