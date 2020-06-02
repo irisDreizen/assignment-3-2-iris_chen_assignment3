@@ -1,0 +1,25 @@
+{
+  "name": "testNodeJS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "client-sessions": "^0.8.0",
+    "cookie-parser": "^1.4.5",
+    "crypto-js": "^4.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "mongoose-morgan": "^1.0.13",
+    "mssql": "^6.2.0",
+    "simple-js-sha2-256": "^1.0.7",
+    "simple-js-sha2-512": "^1.0.1",
+    "tedious": "^8.3.0"
+  }
+}
