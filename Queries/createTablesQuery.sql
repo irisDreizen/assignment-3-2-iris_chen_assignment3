@@ -2,6 +2,12 @@
 -- Create a new table called 'Users' in schema 'SchemaName'
 -- Drop the table if it already exists
 
+CREATE TABLE [dbo].[users](
+	[user_id] [UNIQUEIDENTIFIER] PRIMARY KEY NOT NULL default NEWID(),
+	[username] [varchar](30) NOT NULL UNIQUE,
+	[password] [varchar](300) NOT NULL
+)
+
 
 IF OBJECT_ID('dbo.Users', 'U') IS NOT NULL
 DROP TABLE dbo.Users
