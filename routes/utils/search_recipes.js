@@ -46,10 +46,24 @@ function extractSearchResultsIds(search_response){
 function extractSearchResultsData(recipes_Info){
     return recipes_Info.map((recipe_info) => {
         const {
-            id
+            id,
+            title,
+            readyInMinutes,
+            aggregateLikes,
+            vegetarian,
+            vegan,
+            glutenFree,
+            image,
         } = recipe_info.data;
         return {
-            id: id
+            id: id,
+            title: title,
+            readyInMinutes: readyInMinutes,
+            aggregateLikes: aggregateLikes,
+            vegetarian: vegetarian,
+            vegan: vegan,
+            glutenFree: glutenFree,
+            image: image,
         };
     });
 }
