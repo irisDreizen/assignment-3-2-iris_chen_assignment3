@@ -16,7 +16,7 @@ app.use(express.json()); // parse application/json
 router.use((req, res, next) => {
     if(req.session && req.session.id){
         const id = req.session.id;
-        const user = checkIdOnDb(id);
+        const user = checkIfUserInDB(id);
 
         if(user){
             req.user = user;
@@ -26,7 +26,7 @@ router.use((req, res, next) => {
     res.sendStatus(401);
 });
 
-router.get("/recipeInfo/{ids}", (req,res) => {
+router.get("/recipeInfo/{ids}", (req,res) => {//chen
     const ids =JSON.parse( req.params.ids);
     const user_name = req.user;
     console.log(ids,user_name);
@@ -34,46 +34,43 @@ router.get("/recipeInfo/{ids}", (req,res) => {
     res.send(userRecipesData);
 });
 
-router.get('/getMyFavorite', (req, res) => {
-//Alon - Get (Maybe to get from added recipes)
-//Gal - Get from API
-});
+async function getUserInfoOnRecipes(user_name, ids){// access DB
 
-router.post('/addRecipeToFavorites', (req, res) => {
-//Alon
-});
-
-router.post('/addRecipeToWatched', (req, res) => {
-//Alon
-});
+}
 
 
-router.get('/getMyRecepies', (req, res) => {
-//Alon
-});
 
-router.get('/getMyFamilyRecepies', (req, res) => {
-//Alon
-});
 
-router.post("/addRecipe", (req, res) => {
-    //add to DB
-    //check if logged in (cookie?)
-});
+router.get('/threeLastRecipes', (req, res) => {//chen
 
-router.post("/addRecipeToFamilyRecipes", (req, res) => {
-//Alon
-});
-
-router.get('/getLastWatchedRecipes', (req, res) => {
-//Alon - add to DB
-//Gal - Get from API
 });
 
 
-async function checkIdOnDb(id) {
+router.get('/myFavorites', (req, res) => {//chen
+
+});
+
+router.get('/myRecepies', (req, res) => {//chen
+
+});
+
+router.post('/addNewRecipeToFavorites', (req, res) => {//chen
+
+});
+
+
+
+
+
+
+
+
+
+
+async function checkIfUserInDB() {
     const users = await DButils.execQuery("SELECT userName, password FROM dbo.users");
-    return users.find((x) => x.userName === id);
+    var toReturn= users.find((x) => x.userName === id)
+    return toReturn;
 }
 
 module.exports = router;

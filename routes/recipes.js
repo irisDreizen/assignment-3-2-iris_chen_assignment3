@@ -14,14 +14,15 @@ var app = express();
 app.use(logger("dev")); //logger
 app.use(express.json()); // parse application/json
 
-router.get("/searchRecipes/query/:searchQuery/:numOfResults", (req, res) => {
+
+router.get("/search/query/:searchQuery/amount/:num", (req, res) => {//iris
     //Gal
-    const{ searchQuery, numOfResults } = req.params;
+    const{ searchQuery, num } = req.params;
     search_params = {};
     search_params.Query = searchQuery;
-    search_params.number = numOfResults;
+    search_params.number = num;
     search_params.instructionsRequired = true;
-    search_util.extractQureryParams(search_params);
+    search_util.extractQureryParams(req.query,search_params);
 
     search_util.searchForRecipes(search_params)
     .then((info_array) => res.send(info_array))
@@ -30,13 +31,16 @@ router.get("/searchRecipes/query/:searchQuery/:numOfResults", (req, res) => {
     });
 });
 
-router.get("/getRandomRecipes/:howMany", (req, res) => {
-    //Gal
+
+router.get('/:recipeID', (req, res) => {//iris
+
 });
 
-router.get("/getRecipe/:id", (req, res) => {
-    //Gal
+router.get('/:threeRandomRecepies', (req, res) => {//iris
+
 });
+
+
 
 
 

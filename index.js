@@ -40,9 +40,9 @@ app.use(morgan(":method :url :status :response-time ms"));
 app.use(
     session({
         cookieName: "session",
-        secret: "abc123",
+        secret: "irischen",
         duration: 20 * 1000,
-        activeDuration: 0,
+        activeDuration: 20 * 1000,
         id: null,
     })
 );
@@ -53,9 +53,9 @@ app.use("/recipes",recipes);
 // app.use((req,res) => res.sendStatus(404));
 
 
-app.get("/alive", (req,res) => {
-    res.send("I'm alive");
-});
+// app.get("/alive", (req,res) => {
+//     res.send("I'm alive");
+// });
 
 app.listen(port, () => {
     console.log('Example app listening on port 3000');

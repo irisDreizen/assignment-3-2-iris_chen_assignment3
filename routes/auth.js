@@ -14,7 +14,7 @@ app.use(logger("dev")); //logger
 app.use(express.json()); // parse application/json
 
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', async (req, res, next) => {//chen
     try {
         let user_data = req.body;
         const users = await DButils.execQuery("SELECT userName FROM dbo.users");
@@ -38,7 +38,7 @@ router.post('/register', async (req, res, next) => {
     }
 });
 
-router.post('/login', async(req, res, next) => {
+router.post('/login', async(req, res, next) => {//chen
     try {
     let user_data = req.body;
     const sha2_256 = require('simple-js-sha2-256')
@@ -57,7 +57,7 @@ router.post('/login', async(req, res, next) => {
 }
 });
 
-router.post('/logout', async(req, res, next) => {
+router.post('/logout', async(req, res, next) => {// chen
     req.session.reset();
      res.redirect("/");
 });
