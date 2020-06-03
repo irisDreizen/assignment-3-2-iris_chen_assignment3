@@ -26,10 +26,12 @@ router.use((req, res, next) => {
     res.sendStatus(401);
 });
 
-router.get("/user/recipeInfo/{ids}", (req,res) => {
-    const ids = req.params.ids;
+router.get("/recipeInfo/{ids}", (req,res) => {
+    const ids =JSON.parse( req.params.ids);
     const user_name = req.user;
-    getUserInfoOnRecipes(user_name, ids);
+    console.log(ids,user_name);
+    const userRecipesData= getUserInfoOnRecipes(user_name, ids);//returns if the user watch or save on the recipe id
+    res.send(userRecipesData);
 });
 
 router.get('/getMyFavorite', (req, res) => {
