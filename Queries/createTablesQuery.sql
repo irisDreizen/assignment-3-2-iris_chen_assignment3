@@ -36,3 +36,14 @@ VALUES -- first row: values for the columns in the list above
     (N'test', N'TestF',N'TestL',@HashThis, N'test@test.com',N'testPhotoUrl',N'testCountry')
 -- add more rows here
 GO
+
+
+CREATE TABLE [dbo].[recipes](
+	[recipe_id] [NVARCHAR] NOT NULL default NEWID(),
+	[author] [NVARCHAR](50) NOT NULL,
+	[recipe_name] [NVARCHAR](300) NOT NULL,
+	PRIMARY KEY (author, recipe_name),
+	FOREIGN KEY (author) REFERENCES Users(userName)
+)
+GO
+
