@@ -50,12 +50,13 @@ app.use(
 app.use(auth);
 app.use("/users",users);
 app.use("/recipes",recipes);
-// app.use((req,res) => res.sendStatus(404));
 
 
-// app.get("/alive", (req,res) => {
-//     res.send("I'm alive");
-// });
+app.get("/alive", (req,res) => {
+    res.send("I'm alive");
+});
+
+app.use((req,res) => res.sendStatus(404));
 
 app.listen(port, () => {
     console.log('Example app listening on port 3000');
