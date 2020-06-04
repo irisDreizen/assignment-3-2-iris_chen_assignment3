@@ -14,10 +14,10 @@ var app = express();
 app.use(logger("dev")); //logger
 app.use(express.json()); // parse application/json
 
-router.use(async(req, res, next) => {
+router.use((req, res, next) => {
     if(req.session && req.session.id){
         const id = req.session.id;
-        const user = await users_util.checkIfUserInDB(id);
+        const user =  users_util.checkIfUserInDB(id);
 
         if(user){
              req.user = user;
@@ -27,7 +27,27 @@ router.use(async(req, res, next) => {
     else {res.sendStatus(401);}
 });
 
-router.get("/recipeInfo/{ids}", async(req,res) => {//chen
+// router.use(async (req, res, next) => {
+//     if (req.session && req.session.id) {
+//       //const id = req.session.id;
+//       const user = (
+//         await DButils.execQuery(
+//           `SELECT * FROM dbo.users WHERE user_id = '${req.session.id}'`
+//         )
+//       )[0];
+//       if (user) {
+//         req.user = user;
+//         next();
+//       }
+//     }
+//     else res.sendStatus(401);
+//   });
+
+router.get("/alive", (req, res) => {
+    res.send("ok");
+});
+
+router.get("/recipeInfo/:ids", async(req,res) => {//chen
     const ids =JSON.parse( req.params.ids);
     const user_name = req.username;
     console.log(ids,user_name);

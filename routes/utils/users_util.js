@@ -17,7 +17,7 @@ async function checkIfUserInDB(id) {
     const users = await DButils.execQuery("SELECT user_id FROM dbo.Users");
     var exist= users.find((x) => x.user_id === id)
     if(exist){
-        var user= await DButils.execQuery(`SELECT username FROM dbo.Users WHERE user_id = '${id}'`) ;
+        var user= await DButils.execQuery(`SELECT * FROM dbo.Users WHERE user_id = '${id}'`) ;
         return user;
     }
     return null;
