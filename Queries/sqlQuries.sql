@@ -5,11 +5,12 @@ DROP TABLE recipes;
 --users table
 CREATE TABLE [dbo].[Users]
 (
-    username [NVARCHAR](50) NOT NULL PRIMARY KEY, -- primary key column
+    user_id [UNIQUEIDENTIFIER] PRIMARY KEY NOT NULL default NEWID(),
+    username [NVARCHAR](50) NOT NULL UNIQUE, -- primary key column
     firstname [NVARCHAR](50) NOT NULL,
     lastname [NVARCHAR](50) NOT NULL,
     country [NVARCHAR](50) NOT NULL,
-    userPassword [NVARCHAR](50) NOT NULL,
+    userPassword [NVARCHAR](3000) NOT NULL,
     email [NVARCHAR](50) NOT NULL,
     photoUser [NVARCHAR](50) NOT NULL,
 );
@@ -38,9 +39,7 @@ GO
 -- -- add more rows here
 -- GO
 
-INSERT INTO 
-VALUES ('chenavra', '1', 1, 0);
-GO
+
 
 
 INSERT INTO UsersAndRecieps(username, recipeId, watched, saveFavorites)
@@ -50,7 +49,7 @@ GO
 
 
 INSERT INTO Users (username, firstname, lastname, country, userPassword, email, photoUser)
-VALUES ('chenavra', 'chen', 'avra', 'israel', '4006', 'ch@12.com','cscs@.com');
+VALUES ('chere', 'chen', 'avra', 'israel', '4006', 'ch@12.com','cscs@.com');
 GO
 
 

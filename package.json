@@ -1,5 +1,5 @@
 {
-  "name": "testNodeJS",
+  "name": "ass-i3.2",
   "version": "1.0.0",
   "description": "",
   "main": "test.js",
@@ -12,6 +12,7 @@
   "dependencies": {
     "client-sessions": "^0.8.0",
     "cookie-parser": "^1.4.5",
+    "bcrypt": "4.0.1",
     "crypto-js": "^4.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
