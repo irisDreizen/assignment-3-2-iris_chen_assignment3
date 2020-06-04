@@ -32,6 +32,8 @@ app.use(express.static(path.join(__dirname, "public"))); //To serve static files
 const users = require("./routes/users");
 const recipes = require("./routes/recipes");
 const auth = require("./routes/auth");
+// const users_util = require("./utils/users_util");
+
 
 const port = 3000;
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -41,8 +43,8 @@ app.use(
     session({
         cookieName: "session",
         secret: "irischen",
-        duration: 20 * 1000,
-        activeDuration: 20 * 1000,
+        duration: 9000000 * 1000,
+        activeDuration: 200000 * 1000,
         id: null,
     })
 );
