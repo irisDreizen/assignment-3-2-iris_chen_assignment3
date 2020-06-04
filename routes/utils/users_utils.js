@@ -25,3 +25,4 @@ async function checkIfUserInUsersAndRecipesTable(userName) {
 }
 
 exports.checkIfUserInDB=checkIfUserInDB;
+exports.checkIfUserInUsersAndRecipesTable = checkIfUserInUsersAndRecipesTable;
