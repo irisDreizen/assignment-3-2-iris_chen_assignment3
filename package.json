@@ -1,11 +1,8 @@
 {
-  "name": "ass-i3.2",
+  "name": "assignement-3-2-iris_chen_assignment3",
   "version": "1.0.0",
   "description": "",
-  "main": "test.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "index.js",
   "keywords": [],
   "author": "",
   "license": "ISC",

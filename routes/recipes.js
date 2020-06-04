@@ -7,8 +7,8 @@ const axios = require("axios");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var DButils = require("./utils/DButils")
-const search_util = require("./utils/search_util");
+var DButils = require("../DButils")
+const search_util = require("./utils/search_recipes");
 
 var app = express();
 app.use(logger("dev")); //logger
