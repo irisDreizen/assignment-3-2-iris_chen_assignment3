@@ -14,30 +14,28 @@ var app = express();
 app.use(logger("dev")); //logger
 app.use(express.json()); // parse application/json
 
-router.use((req, res, next) => {
+router.use(async(req, res, next) => {
     if(req.session && req.session.id){
         const id = req.session.id;
-        const user = users_util.checkIfUserInDB(id);
+        const user = await users_util.checkIfUserInDB(id);
 
         if(user){
              req.user = user;
             next();
         }
     }
-    res.sendStatus(401);
+    else {res.sendStatus(401);}
 });
 
-router.get("/recipeInfo/{ids}", (req,res) => {//chen
+router.get("/recipeInfo/{ids}", async(req,res) => {//chen
     const ids =JSON.parse( req.params.ids);
-    const user_name = req.user;
+    const user_name = req.username;
     console.log(ids,user_name);
-    const userRecipesData= getUserInfoOnRecipes(user_name, ids);//returns if the user watch or save on the recipe id
+    const userRecipesData= await users_util.getUserInfoOnRecipes(user_name, ids);//returns if the user watch or save on the recipe id
     res.send(userRecipesData);
 });
 
-async function getUserInfoOnRecipes(user_name, ids){// access DB
 
-}
 
 
 

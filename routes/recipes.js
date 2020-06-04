@@ -9,6 +9,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var DButils = require("./utils/DButils")
 const search_util = require("./utils/search_recipes");
+// const users_util = require("./utils/users_util");
 
 var app = express();
 app.use(logger("dev")); //logger
