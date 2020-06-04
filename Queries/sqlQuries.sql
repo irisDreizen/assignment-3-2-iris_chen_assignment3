@@ -46,10 +46,14 @@ INSERT INTO UsersAndRecieps(username, recipeId, watched, saveFavorites)
 VALUES ('chenavra', '1', 1, 0);
 GO
 
+INSERT INTO personalRecipes(recipeId,username,recipeTitle,recipeImage,recipeTime,recipeLikes,recipeVegan,recipeVegiterian,recipeGlutenFree,recipeInstructions ,recipeNumOfMeals)
+VALUES('1','iris', 'chen', 'avra', 'israel', 'ABC', 'ch@12.com',550, 4006, '52','2')
+GO
+
 
 
 INSERT INTO Users (username, firstname, lastname, country, userPassword, email, photoUser)
-VALUES ('chere', 'chen', 'avra', 'israel', '4006', 'ch@12.com','cscs@.com');
+VALUES ('iris', 'chen', 'avra', 'israel', '4006', 'ch@12.com','cscs@.com');
 GO
 
 
@@ -70,7 +74,7 @@ CREATE TABLE [dbo].[personalRecipes](
     recipeVegiterian [int] NOT NULL,
     recipeGlutenFree [int] NOT NULL,
     recipeInstructions [text] NOT NULL,
-    recipeNumOfMeals [NVARCHAR] NOT NULL,
+    recipeNumOfMeals [NVARCHAR](300) NOT NULL,
 	PRIMARY KEY (recipeId, username),
 
 );
