@@ -74,6 +74,10 @@ router.get('/myRecepies', (req, res) => {//chen
 });
 
 router.post('/addNewRecipeToFavorites', (req, res) => {//chen
+    if(users_util.checkIfUserInUsersAndRecipesTable(req.user.username)){
+        let users = await DButils.execQuery(`UPDATE db.UserAndRecieps SET saveFavorites=1 WHERE username=${req.user.username}`);
+        return users;    
+    }
 
 });
 
