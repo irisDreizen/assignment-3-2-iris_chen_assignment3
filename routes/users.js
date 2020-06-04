@@ -20,7 +20,7 @@ router.use(async(req, res, next) => {
         const user = await users_util.checkIfUserInDB(id);
 
         if(user){
-            req.username = user;
+             req.user = user;
             next();
         }
     }
