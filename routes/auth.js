@@ -7,38 +7,34 @@ const axios = require("axios");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var DButils = require("../DButils")
-// const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
+var DButils = require("./utils/DButils")
+const auth_util = require("./utils/auth_util");
+
+
 
 
 var app = express();
 app.use(logger("dev")); //logger
 app.use(express.json()); // parse application/json
+var saltRounds = 10;
 
 
 router.post('/register', async (req, res, next) => {//chen
     try {
-        let user = req.body;
-        const users = await DButils.execQuery("SELECT username FROM dbo.Users");
-        if (users.find((x) => x.userName === user.userName)) {
-            res.status(400).send({ message: "Username taken" });
+        const users = await auth_util.getUsersFromDb();
+        const userExist=await auth_util.userExist(users,req);
+        const validPassword= auth_util.passwordConfirmation(req);
+        if(validPassword!=null){
+            const add= await auth_util.insertNewUserToDB(req,validPassword);
+            res.status(201).send({ message: "user created", success: true });        }
+        else{
+            res.status(409).send({ message: "Confirmation Password does not match the Password" });
+
         }
 
-        else {
-            
-            if (req.body.password === req.body.confirmationPassword) {
-                let hash_password = bcrypt.hashSync(
-                    req.body.password,
-                    parseInt(process.env.bcrypt_saltRounds)
-                );
-                await DButils.execQuery(`INSERT INTO dbo.Users VALUES ('${req.body.userName}', '${req.body.firstname}','${req.body.lastname}','${req.body.country}', '${hash_password}', '${req.body.email}','${req.body.linkimage}')`);
-                res.status(201).send({ message: "user created", success: true });
-                res.redirect("/");
-            }
-            else {
-                res.status(409).send({ message: "Confirmation Password does not match the Password" });
-            }
-        }
+     
+
     } catch (error) {
         next(error);
     }
@@ -46,18 +42,16 @@ router.post('/register', async (req, res, next) => {//chen
 
 router.post('/login', async (req, res, next) => {//chen
     try {
-        let user_data = req.body;
-        const sha2_256 = require('simple-js-sha2-256')
-        const users = await DButils.execQuery("SELECT userName, password FROM dbo.users");
-        const user = users.find((x) => x.userName === user_data.userName && x.password == sha2_256(user_data.password));
-        if (user != null) {
-            if (req.session != null)
-                req.session.id = user.userName;
-            res.status(201).send({ user });
-        }
-        else {
-            res.status(409).send("Wrong Username or Password");
-        }
+   
+        userLogin=req.body;
+
+        const users = await  auth_util.getUsersFromDb();
+        const user = await  auth_util.getUserLogin(users,userLogin);
+        // Set cookie
+        req.session.user_id = user.user_id;
+        res.status(200).send({ message: "login succeeded", success: true });
+
+    
     } catch (error) {
         next(error);
     }

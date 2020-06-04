@@ -61,3 +61,8 @@ app.use((req,res) => res.sendStatus(404));
 app.listen(port, () => {
     console.log('Example app listening on port 3000');
 });
+
+app.use(function (err, req, res, next) {
+    // console.error(err);
+    res.status(err.status || 500).send({ message: err.message||"bad", success: false });
+  });
