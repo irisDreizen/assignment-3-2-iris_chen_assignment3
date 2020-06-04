@@ -20,7 +20,7 @@ router.use((req, res, next) => {
         const user = users_util.checkIfUserInDB(id);
 
         if(user){
-            // req.user = user;
+             req.user = user;
             next();
         }
     }

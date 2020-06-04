@@ -18,4 +18,10 @@ async function checkIfUserInDB(id) {
     return toReturn;
 }
 
+async function checkIfUserInUsersAndRecipesTable(userName) {
+    const users = await DButils.execQuery("SELECT username FROM dbo.UsersAndRecieps");
+    var toReturn= users.find((x) => x.username === userName)
+    return toReturn;
+}
+
 exports.checkIfUserInDB=checkIfUserInDB;
