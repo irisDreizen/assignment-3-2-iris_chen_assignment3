@@ -22,7 +22,7 @@ async function getUsersFromDb(){
 }
 
 async function userExist(users,req){
-    if (users.find((x) => x.userName === req.body.userName)) {
+    if (users.find((x) => x.username === req.body.userName)) {
         throw { status: 409, message: "Username taken" };
     }
     return;
@@ -59,19 +59,19 @@ async function insertNewUserToDB(req,hash_password){
 
 async function getUserLogin(users,userLogin){
 
-    if (!users.find((x) => x.username === userLogin.username))
+    if (!users.find((x) => x.username === userLogin.userName))
     throw { status: 401, message: "Username or Password incorrect" };
 
     const user = (
         await DButils.execQuery(
-          `SELECT * FROM dbo.Users WHERE username = '${userLogin.username}'`
+          `SELECT * FROM dbo.Users WHERE username = '${userLogin.userName}'`
         )
       )[0];
 
 
 
 
-    if (!bcrypt.compareSync(userLogin.password, user.password)) {
+    if (!bcrypt.compareSync(userLogin.password, user.userPassword)) {
         throw { status: 401, message: "Username or Password incorrect" };
     }
 

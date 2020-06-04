@@ -48,7 +48,7 @@ router.post('/login', async (req, res, next) => {//chen
         const users = await  auth_util.getUsersFromDb();
         const user = await  auth_util.getUserLogin(users,userLogin);
         // Set cookie
-        req.session.user_id = user.user_id;
+        req.session.id = user.user_id;
         res.status(200).send({ message: "login succeeded", success: true });
 
     

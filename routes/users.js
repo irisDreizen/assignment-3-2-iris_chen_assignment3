@@ -8,6 +8,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var DButils = require("./utils/DButils")
+const users_util = require("./utils/users_util");
 
 var app = express();
 app.use(logger("dev")); //logger
@@ -16,10 +17,10 @@ app.use(express.json()); // parse application/json
 router.use((req, res, next) => {
     if(req.session && req.session.id){
         const id = req.session.id;
-        const user = checkIfUserInDB(id);
+        const user = users_util.checkIfUserInDB(id);
 
         if(user){
-            req.user = user;
+            // req.user = user;
             next();
         }
     }
