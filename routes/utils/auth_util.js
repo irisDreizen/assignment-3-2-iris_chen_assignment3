@@ -47,7 +47,7 @@ function passwordConfirmation(req){
 }
 
 async function insertNewUserToDB(req,hash_password){
-    await DButils.execQuery(`INSERT INTO dbo.Users VALUES ('','${req.body.userName}', '${req.body.firstname}','${req.body.lastname}','${req.body.country}', '${hash_password}', '${req.body.email}','${req.body.linkimage}')`);
+    await DButils.execQuery(`INSERT INTO dbo.Users (username, firstname, lastname, country, userPassword, email, photoUser) VALUES ('${req.body.userName}', '${req.body.firstname}','${req.body.lastname}','${req.body.country}', '${hash_password}', '${req.body.email}','${req.body.linkimage}')`);
 
 }
 
