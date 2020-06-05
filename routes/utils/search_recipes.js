@@ -198,4 +198,5 @@ exports.extractQureryParams = extractQureryParams;
 exports.searchForRecipes = searchForRecipes;
 exports.searchForRandomRecipes = searchForRandomRecipes;
 exports.searchForRecipesByID = searchForRecipesByID;
+exports.getRecipesInfo = getRecipesInfo;
 exports.getRecipesInfo_fullRecipe = getRecipesInfo_fullRecipe;

@@ -58,7 +58,6 @@ router.get('/myRecepies', (req, res) => {//chen
 });
 
 router.post('/addNewRecipeToFavorites',async (req, res) => {//chen
-
     let answer =await users_util.checkIfUserInUsersAndRecipesTable(req.user[0].username);
     if(answer){
         let users = await DButils.execQuery(`UPDATE dbo.UsersAndRecieps SET saveFavorites=1 WHERE username='${req.user[0].username}'`);
@@ -69,7 +68,6 @@ router.post('/addNewRecipeToFavorites',async (req, res) => {//chen
         let users = await DButils.execQuery(`INSERT INTO dbo.UsersAndRecieps (username, recipeId, watched, saveFavorites) VALUES ('${req.user[0].username}','${req.body.id}','0','1')`);
         res.send("inserted user") 
     }
-
 
 });
 

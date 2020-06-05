@@ -68,6 +68,24 @@ router.get("/getFullRecipe/:recipeID", (req, res) => {//iris
     });
 });
 
+router.get("/getRecipePreview/:recipeID", (req, res) => {//iris
+    const{ recipeID } = req.params;
+    search_params = {};
+    search_params.id = recipeID;
+
+    //
+    recipes_id_list = [];
+    recipes_id_list.push(search_params.id);
+    //
+
+    search_util
+    //.searchForRecipesByID(search_params)
+    .getRecipesInfo(recipes_id_list)
+    .then((info_array) => res.send(info_array))
+    .catch((error) => {
+        res.sendStatus(500);
+    });
+});
 
 
 
