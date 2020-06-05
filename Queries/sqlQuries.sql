@@ -43,7 +43,7 @@ GO
 
 
 INSERT INTO UsersAndRecieps(username, recipeId, watched, saveFavorites)
-VALUES ('en', '1', 1, 0);
+VALUES ('iris', '1', 1, 0);
 GO
 
 INSERT INTO personalRecipes(recipeId,username,recipeTitle,recipeImage,recipeTime,recipeLikes,recipeVegan,recipeVegiterian,recipeGlutenFree,recipeInstructions ,recipeNumOfMeals)
