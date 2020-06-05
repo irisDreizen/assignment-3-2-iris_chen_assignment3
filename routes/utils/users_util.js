@@ -47,7 +47,7 @@ async function checkIfUserInUsersAndRecipesTable(userName) {
 
 async function getLastThreeRecipes(username){
     const LastThreeRecipes= await DButils.execQuery(`SELECT TOP 3  recipeId FROM dbo.UsersHistoryRecieps WHERE username='${username}'`);
-    // const recipes=await search_util.getRecipesInfo(LastThreeRecipes);
+    const recipes=await search_util.getRecipesInfo(LastThreeRecipes);
     return recipes;
 
 
