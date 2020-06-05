@@ -14,23 +14,24 @@ var app = express();
 app.use(logger("dev")); //logger
 app.use(express.json()); // parse application/json
 
-// router.use(async(req, res, next) => {
-//     if(req.session && req.session.id){
-//         const id = req.session.id;
-//         const user = await users_util.checkIfUserInDB(id);
+router.use(async(req, res, next) => {
+    if(req.session && req.session.id){
+        const id = req.session.id;
+        const user =  await users_util.checkIfUserInDB(id);
+        if(user){
+             req.user = user;
+            next();
+        }
+    }
+    else {res.sendStatus(401);}
+});
 
-//         if(user){
-//              req.user = user;
-//             next();
-//         }
-//     }
-//     else {res.sendStatus(401);}
-// });
 
-router.get("/recipeInfo/{ids}", async(req,res) => {//chen
+
+router.get("/recipeInfo/:ids", async(req,res) => {//chen
     const ids =JSON.parse( req.params.ids);
-    const user_name = req.username;
-    console.log(ids,user_name);
+    const user_name = req.user[0].username;
+    // console.log(ids,user_name);
     const userRecipesData= await users_util.getUserInfoOnRecipes(user_name, ids);//returns if the user watch or save on the recipe id
     res.send(userRecipesData);
 });
@@ -54,6 +55,14 @@ router.get('/myRecepies', (req, res) => {//chen
 });
 
 router.post('/addNewRecipeToFavorites',async (req, res) => {//chen
+    if(users_util.checkIfUserInUsersAndRecipesTable(req.user.username)){
+        let users = await DButils.execQuery(`UPDATE db.UserAndRecieps SET saveFavorites=1 WHERE username=${req.user.username}`);
+        return users;    
+    }
+
+});
+
+
 
     let answer =await users_util.checkIfUserInUsersAndRecipesTable(req.user[0].username);
     if(answer){
