@@ -10,6 +10,8 @@ const CryptoJS = require("crypto-js");
 require("dotenv").config();
 
 var DButils = require("./DButils")
+
+var search_util = require("./search_recipes")
 const bcrypt = require("bcrypt");
 
 
@@ -42,6 +44,15 @@ async function checkIfUserInUsersAndRecipesTable(userName) {
     var toReturn= users.find((x) => x.username === userName)
     return toReturn;
 }
+
+async function getLastThreeRecipes(username){
+    const LastThreeRecipes= await DButils.execQuery(`SELECT TOP 3  recipeId FROM dbo.UsersHistoryRecieps WHERE username='${username}'`);
+    // const recipes=await search_util.getRecipesInfo(LastThreeRecipes);
+    return recipes;
+
+
+}
+exports.getLastThreeRecipes=getLastThreeRecipes;
 
 exports.getUserInfoOnRecipes=getUserInfoOnRecipes;
 
