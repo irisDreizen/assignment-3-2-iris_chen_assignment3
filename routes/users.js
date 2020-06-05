@@ -33,7 +33,7 @@ router.get("/recipeInfo/:ids", async(req,res) => {//chen
     const user_name = req.user[0].username;
     // console.log(ids,user_name);
     const userRecipesData= await users_util.getUserInfoOnRecipes(user_name, ids);//returns if the user watch or save on the recipe id
-    res.send(userRecipesData);
+    res.status(200).send(userRecipesData);
 });
 
 
@@ -41,7 +41,10 @@ router.get("/recipeInfo/:ids", async(req,res) => {//chen
 
 
 
-router.get('/threeLastRecipes', (req, res) => {//chen
+router.get('/threeLastRecipes', async(req, res) => {//chen
+    var arrayLastThreeRecipes=await users_util.getLastThreeRecipes(req.user[0].username);
+
+    res.send(arrayLastThreeRecipes);
 
 });
 
@@ -68,6 +71,12 @@ router.post('/addNewRecipeToFavorites',async (req, res) => {//chen
 
 });
 
+
+
+
+
+
+
 router.post('/addNewRecipeToWatched',async (req, res) => {//chen
     let answer = await users_util.checkIfUserInUsersAndRecipesTable(req.user[0].username)
     if(answer){
@@ -83,10 +92,10 @@ router.post('/addNewRecipeToWatched',async (req, res) => {//chen
 });
 
 
-async function checkIfUserInDB() {
-    const users = await DButils.execQuery("SELECT userName, password FROM dbo.users");
-    var toReturn= users.find((x) => x.userName === id)
-    return toReturn;
-}
+// async function checkIfUserInDB() {
+//     const users = await DButils.execQuery("SELECT userName, password FROM dbo.users");
+//     var toReturn= users.find((x) => x.userName === id)
+//     return toReturn;
+// }
 
 module.exports = router;

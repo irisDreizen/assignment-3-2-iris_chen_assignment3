@@ -28,6 +28,19 @@ CREATE TABLE [dbo].[UsersAndRecieps]
 );
 GO
 
+
+
+CREATE TABLE [dbo].[UsersHistoryRecieps]
+(
+    username [NVARCHAR](50) NOT NULL, -- primary key column
+    recipeId [NVARCHAR](50) NOT NULL,
+    serialNumber int IDENTITY(1,1),  
+    PRIMARY KEY (recipeId, username),
+
+   
+);
+GO
+
 -- -- Insert rows into table 'TableName'
 -- DECLARE @HashThis nvarchar(max);  
 -- SET @HashThis = lower(CONVERT(varchar(max), HASHBYTES('SHA2_256', 'test'), 2));
@@ -46,8 +59,10 @@ INSERT INTO UsersAndRecieps(username, recipeId, watched, saveFavorites)
 VALUES ('iris', '1', 1, 0);
 GO
 
-INSERT INTO personalRecipes(recipeId,username,recipeTitle,recipeImage,recipeTime,recipeLikes,recipeVegan,recipeVegiterian,recipeGlutenFree,recipeInstructions ,recipeNumOfMeals)
-VALUES('1','iris', 'chen', 'avra', 'israel', 'ABC', 'ch@12.com',550, 4006, '52','2')
+
+
+INSERT INTO UsersHistoryRecieps(recipeId,username)
+VALUES('3','en')
 GO
 
 
@@ -76,6 +91,20 @@ CREATE TABLE [dbo].[personalRecipes](
     recipeInstructions [text] NOT NULL,
     recipeNumOfMeals [NVARCHAR](300) NOT NULL,
 	PRIMARY KEY (recipeId, username),
+
+);
+GO
+
+CREATE TABLE [dbo].[familylRecipes](
+	recipeId [NVARCHAR] (50) NOT NULL,
+	ownerRecipe [NVARCHAR](50) NOT NULL,
+	recipeTitle [NVARCHAR](300) NOT NULL,
+    periodRecipe [NVARCHAR](300) NOT NULL,
+    ingredients [NVARCHAR](300) NOT NULL,
+    instructions [NVARCHAR](300) NOT NULL,
+    recipeVegan [NVARCHAR](300) NOT NULL,
+   
+	PRIMARY KEY (recipeId, ownerRecipe),
 
 );
 GO
