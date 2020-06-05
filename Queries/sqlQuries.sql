@@ -60,11 +60,26 @@ VALUES ('iris', '1', 1, 0);
 GO
 
 
-
-INSERT INTO UsersHistoryRecieps(recipeId,username)
-VALUES('3','en')
+INSERT INTO UsersAndRecieps(username, recipeId, watched, saveFavorites)
+VALUES ('en', '638038', 1, 1);
 GO
 
+
+
+INSERT INTO UsersHistoryRecieps(recipeId,username)
+VALUES('638038','en')
+GO
+INSERT INTO UsersHistoryRecieps(recipeId,username)
+VALUES('716272','en')
+GO
+INSERT INTO UsersHistoryRecieps(recipeId,username)
+VALUES('661557','en')
+GO
+
+
+
+
+DELETE FROM UsersAndRecieps WHERE username='en';
 
 
 INSERT INTO Users (username, firstname, lastname, country, userPassword, email, photoUser)

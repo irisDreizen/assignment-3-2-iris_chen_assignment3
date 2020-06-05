@@ -9,6 +9,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var DButils = require("./utils/DButils")
 const users_util = require("./utils/users_util");
+const search_util = require("./utils/search_recipes");
 let recordSerialNumber=0;
 var app = express();
 app.use(logger("dev")); //logger
@@ -43,18 +44,26 @@ router.get("/recipeInfo/:ids", async(req,res) => {//chen
 
 router.get('/threeLastRecipes', async(req, res) => {//chen
     var arrayLastThreeRecipes=await users_util.getLastThreeRecipes(req.user[0].username);
-
-    res.send(arrayLastThreeRecipes);
+    var toSend=await search_util.getRecipesInfo(arrayLastThreeRecipes);
+    res.status(200).send(toSend);
 
 });
 
 
-router.get('/myFavorites', (req, res) => {//chen
+router.get('/myFavorites', async(req, res) => {//chen
+    var myFavorites=await users_util.getMyFavoriteRecipes(req.user[0].username);
+    var array=[];
+    for(var i=0; i<myFavorites.length; i++){
+        array.push(myFavorites[i].recipeId);
+
+    }
+    var toSend=await search_util.getRecipesInfo(array);
+    res.status(200).send(toSend);
 
 });
 
 router.get('/myRecepies', (req, res) => {//chen
-
+    
 });
 
 router.post('/addNewRecipeToFavorites',async (req, res) => {//chen

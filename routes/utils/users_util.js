@@ -46,12 +46,25 @@ async function checkIfUserInUsersAndRecipesTable(userName) {
 }
 
 async function getLastThreeRecipes(username){
-    const LastThreeRecipes= await DButils.execQuery(`SELECT TOP 3  recipeId FROM dbo.UsersHistoryRecieps WHERE username='${username}'`);
-    const recipes=await search_util.getRecipesInfo(LastThreeRecipes);
-    return recipes;
+    var recipeToReturn=[];
+    const LastThreeRecipes1= await DButils.execQuery(`SELECT recipeId, username FROM dbo.UsersHistoryRecieps ORDER BY serialNumber DESC`);
+    const userLastRecipe=LastThreeRecipes1.filter((x) => x.username === username);
+    for(var i=0; i<3; i++){
+        recipeToReturn.push(userLastRecipe[i].recipeId);
+
+    }
+
+    return recipeToReturn;
 
 
 }
+async function getMyFavoriteRecipes(username){
+    const myFavorites= await DButils.execQuery(`SELECT recipeId FROM dbo.UsersAndRecieps WHERE username='${username}' and saveFavorites='1'`);
+    return myFavorites;
+
+}
+
+exports.getMyFavoriteRecipes=getMyFavoriteRecipes;
 exports.getLastThreeRecipes=getLastThreeRecipes;
 
 exports.getUserInfoOnRecipes=getUserInfoOnRecipes;
