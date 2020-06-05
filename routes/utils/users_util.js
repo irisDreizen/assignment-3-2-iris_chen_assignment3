@@ -40,7 +40,7 @@ async function getUserInfoOnRecipes(user_name, ids){// access DB `SELECT usernam
 }
 
 async function checkIfUserInUsersAndRecipesTable(userName) {
-    const users = await DButils.execQuery("SELECT username FROM dbo.UsersAndRecieps");
+    const users = await DButils.execQuery("SELECT * FROM dbo.UsersAndRecieps");
     var toReturn= users.find((x) => x.username === userName)
     return toReturn;
 }
@@ -57,3 +57,4 @@ exports.getLastThreeRecipes=getLastThreeRecipes;
 exports.getUserInfoOnRecipes=getUserInfoOnRecipes;
 
 exports.checkIfUserInDB=checkIfUserInDB;
+exports.checkIfUserInUsersAndRecipesTable=checkIfUserInUsersAndRecipesTable;
