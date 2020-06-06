@@ -63,6 +63,16 @@ async function getMyFavoriteRecipes(username){
     return myFavorites;
 
 }
+function createArrayOfFavoriteRecipes(myFavorites){
+    var array=[];
+    for(var i=0; i<myFavorites.length; i++){
+        array.push(myFavorites[i].recipeId);
+
+    }
+    return array;
+}
+
+exports.createArrayOfFavoriteRecipes=createArrayOfFavoriteRecipes;
 
 exports.getMyFavoriteRecipes=getMyFavoriteRecipes;
 exports.getLastThreeRecipes=getLastThreeRecipes;

@@ -49,7 +49,7 @@ router.get("/threeRandomRecipies", (req, res) => {//iris
     });
 });
 
-router.get("/getFullRecipe/:recipeID", (req, res) => {//iris
+router.get("/getFullRecipe/:recipeID", async(req, res) => {//iris
     const{ recipeID } = req.params;
     search_params = {};
     search_params.id = recipeID;
@@ -58,6 +58,7 @@ router.get("/getFullRecipe/:recipeID", (req, res) => {//iris
     recipes_id_list = [];
     recipes_id_list.push(search_params.id);
     //
+    //insert watched to DB 
 
     search_util
     //.searchForRecipesByID(search_params)

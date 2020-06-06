@@ -10,72 +10,85 @@ var logger = require("morgan");
 var DButils = require("./utils/DButils")
 const users_util = require("./utils/users_util");
 const search_util = require("./utils/search_recipes");
-let recordSerialNumber=0;
+let recordSerialNumber = 0;
 var app = express();
 app.use(logger("dev")); //logger
 app.use(express.json()); // parse application/json
 
-router.use(async(req, res, next) => {
-    if(req.session && req.session.id){
+router.use(async (req, res, next) => {
+    if (req.session && req.session.id) {
         const id = req.session.id;
-        const user =  await users_util.checkIfUserInDB(id);
-        if(user){
-             req.user = user;
+        const user = await users_util.checkIfUserInDB(id);
+        if (user) {
+            req.user = user;
             next();
         }
     }
-    else {res.sendStatus(401);}
+    else { res.sendStatus(401); }
 });
 
 
 
-router.get("/recipeInfo/:ids", async(req,res) => {//chen
-    const ids =JSON.parse( req.params.ids);
-    const user_name = req.user[0].username;
-    // console.log(ids,user_name);
-    const userRecipesData= await users_util.getUserInfoOnRecipes(user_name, ids);//returns if the user watch or save on the recipe id
-    res.status(200).send(userRecipesData);
-});
-
-
-
-
-
-
-router.get('/threeLastRecipes', async(req, res) => {//chen
-    var arrayLastThreeRecipes=await users_util.getLastThreeRecipes(req.user[0].username);
-    var toSend=await search_util.getRecipesInfo(arrayLastThreeRecipes);
-    res.status(200).send(toSend);
-
-});
-
-
-router.get('/myFavorites', async(req, res) => {//chen
-    var myFavorites=await users_util.getMyFavoriteRecipes(req.user[0].username);
-    var array=[];
-    for(var i=0; i<myFavorites.length; i++){
-        array.push(myFavorites[i].recipeId);
-
+router.get("/recipeInfo/:ids", async (req, res) => {//chen
+    try{
+        const ids = JSON.parse(req.params.ids);
+        const user_name = req.user[0].username;
+        // console.log(ids,user_name);
+        const userRecipesData = await users_util.getUserInfoOnRecipes(user_name, ids);//returns if the user watch or save on the recipe id
+        res.status(200).send(userRecipesData);
+    }catch (error) {
+        next(error);
     }
-    var toSend=await search_util.getRecipesInfo(array);
-    res.status(200).send(toSend);
+ 
+});
+
+
+
+
+
+
+router.get('/threeLastRecipes', async (req, res) => {//chen
+    try {
+        var arrayLastThreeRecipes = await users_util.getLastThreeRecipes(req.user[0].username);
+        var toSend = await search_util.getRecipesInfo(arrayLastThreeRecipes);
+        res.status(200).send(toSend);
+    }    catch (error) {
+        next(error);
+    }
+
+
+});
+
+
+router.get('/myFavorites', async (req, res) => {//chen
+    try {
+        var myFavorites = await users_util.getMyFavoriteRecipes(req.user[0].username);
+        var myFavoritesToReturn = users_util.createArrayOfFavoriteRecipes(myFavorites);
+        var toSend = await search_util.getRecipesInfo(myFavoritesToReturn);
+        res.status(200).send(toSend);
+    }
+    catch (error) {
+        next(error);
+    }
+
+
 
 });
 
 router.get('/myRecepies', (req, res) => {//chen
-    
+
 });
 
-router.post('/addNewRecipeToFavorites',async (req, res) => {//chen
-    let answer =await users_util.checkIfUserInUsersAndRecipesTable(req.user[0].username);
-    if(answer){
+router.post('/addNewRecipeToFavorites', async (req, res) => {//chen
+    let answer = await users_util.checkIfUserInUsersAndRecipesTable(req.user[0].username);
+    if (answer) {
         let users = await DButils.execQuery(`UPDATE dbo.UsersAndRecieps SET saveFavorites=1 WHERE username='${req.user[0].username}'`);
-        res.send("updated user");    
+        res.send("updated user");
     }
-    else{
+    else {
         // recordSerialNumber=recordSerialNumber+1;
         let users = await DButils.execQuery(`INSERT INTO dbo.UsersAndRecieps (username, recipeId, watched, saveFavorites) VALUES ('${req.user[0].username}','${req.body.id}','0','1')`);
-        res.send("inserted user") 
+        res.send("inserted user")
     }
 
 });
@@ -86,16 +99,16 @@ router.post('/addNewRecipeToFavorites',async (req, res) => {//chen
 
 
 
-router.post('/addNewRecipeToWatched',async (req, res) => {//chen
+router.post('/addNewRecipeToWatched', async (req, res) => {//chen
     let answer = await users_util.checkIfUserInUsersAndRecipesTable(req.user[0].username)
-    if(answer){
+    if (answer) {
         let users = await DButils.execQuery(`UPDATE dbo.UsersAndRecieps SET watched=1 WHERE username='${req.user[0].username}'`);
-        res.send("updated user");    
+        res.send("updated user");
     }
-    else{
-        recordSerialNumber=recordSerialNumber+1;
+    else {
+        recordSerialNumber = recordSerialNumber + 1;
         let users = await DButils.execQuery(`INSER INTO dbo.UsersAndRecieps (username, recipeId, watched, saveFavorites) VALUES ('${req.user[0].username}','${req.body.id}','0','1')`);
-        res.send("inserted new user") 
+        res.send("inserted new user")
     }
 
 });
