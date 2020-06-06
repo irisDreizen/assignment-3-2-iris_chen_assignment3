@@ -93,8 +93,11 @@ GO
 
 
 
-DELETE FROM UsersAndRecieps WHERE username='en';
+DELETE FROM Users WHERE username='chen';
 
+
+SELECT * FROM dbo.familylRecipes WHERE username='chen';
+SELECT * FROM dbo.familyRecipesIngredients WHERE  recipeId='4'
 
 INSERT INTO Users (username, firstname, lastname, country, userPassword, email, photoUser)
 VALUES ('iris', 'chen', 'avra', 'israel', '4006', 'ch@12.com','cscs@.com');
@@ -121,27 +124,26 @@ INSERT INTO personalRecipes (recipeId, username, recipeTitle, recipeImage, recip
 VALUES ('5', 'chen','Moms Country Gravy','https://res.cloudinary.com/dw5rvx9m6/image/upload/v1591449980/Mom_s_Country_Gravy_sjvq7j.jpg','20 mins',0,1,0,'Heat the oil in a large skillet over medium heat. Whisk in the flour, salt and pepper until smooth. Cook and stir over medium heat until browned, about 10 minutes. Gradually stir in milk so that no lumps form, and continue cooking and stirring until thickened. If the gravy becomes too thick, you may thin it with a little more milk.',6)
 GO
 
-INSERT INTO familyRecipes (recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
-VALUES ('1', 'GrandMother','Classic Borscht Recipe (Beet Soup)','Winter','Peel, grate and/or slice all vegetables, keeping sliced potatoes in cold water until ready to use. Heat a large soup pot (5 1/2 Qt or larger) over medium/high heat and add 2 Tbsp olive oil. Add grated beets and sauté 10 minutes, stirring occasionally until beets are softened. Add 4 cups broth and 6 cups water. Add sliced potatoes and sliced carrots then cook for 10-15 minutes or until easily pierced with a fork. While potatoes are cooking, place a large skillet over medium/high heat and add 2 Tbsp oil. Add chopped onion, celery and bell pepper. Saute stirring occasionally until softened and lightly golden (7-8 minutes). Add 4 Tbsp Ketchup and stir fry 30 seconds then transfer to the soup pot to continue cooking with the potatoes. When potatoes and carrots reach desired softness, add 1 can of beans with their juice, 2 bay leaves, 2-3 Tbsp white vinegar, 1 tsp salt, 1/4 tsp black pepper, 1 pressed garlic clove, and 3 Tbsp chopped dill. Simmer for an additional 2-3 minutes and add more salt and vinegar to taste.
-','https://res.cloudinary.com/dw5rvx9m6/image/upload/v1591449979/borsht_yhgj4h.jpg')
+INSERT INTO dbo.familylRecipes (username, recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
+VALUES ('iris','1', 'GrandMother','Classic Borscht Recipe (Beet Soup)','Winter','Peel, grate and/or slice all vegetables, keeping sliced potatoes in cold water until ready to use. Heat a large soup pot (5 1/2 Qt or larger) over medium/high heat and add 2 Tbsp olive oil. Add grated beets and sauté 10 minutes, stirring occasionally until beets are softened. Add 4 cups broth and 6 cups water. Add sliced potatoes and sliced carrots then cook for 10-15 minutes or until easily pierced with a fork. While potatoes are cooking, place a large skillet over medium/high heat and add 2 Tbsp oil. Add chopped onion, celery and bell pepper. Saute stirring occasionally until softened and lightly golden (7-8 minutes). Add 4 Tbsp Ketchup and stir fry 30 seconds then transfer to the soup pot to continue cooking with the potatoes. When potatoes and carrots reach desired softness, add 1 can of beans with their juice, 2 bay leaves, 2-3 Tbsp white vinegar, 1 tsp salt, 1/4 tsp black pepper, 1 pressed garlic clove, and 3 Tbsp chopped dill. Simmer for an additional 2-3 minutes and add more salt and vinegar to taste.','https://res.cloudinary.com/dw5rvx9m6/image/upload/v1591449979/borsht_yhgj4h.jpg')
 GO
 
-INSERT INTO familyRecipes (recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
-VALUES ('2', 'Mother','Blinis','Holiday','Whisk milk, 1 cup plus 3 tablespoons flour, eggs, and sugar together in a bowl. Add 1/4 cup melted butter; whisk well. Let batter sit, 15 to 20 minutes. Bring a pot of water to a boil. Add beef; cook until no longer pink, 5 to 7 minutes. Drain. Chop the boiled beef finely until even in texture. Heat 2 tablespoons butter in a skillet over medium-low heat. Add onion and cook, while stirring, until soft and golden, about 10 minutes. Increase heat to medium and add the chopped beef, salt, and pepper. Cook and stir filling until flavors combine, about 10 minutes. Heat oil in a nonstick or cast-iron skillet over medium heat. Pour 3 to 4 tablespoons of batter into the skillet and quickly rotate the skillet to spread batter out in a thin layer. Cook until edges are brown, 1 to 2 minutes. Run a spatula around the edge of the skillet to loosen blini; flip and cook until the other side has turned light brown, about 1 minute more. Repeat with remaining batter. Spread 2 tablespoons beef filling on 1 side of each blini. Fold edges over filling and roll blini up. Repeat with remaining filling and blini.','https://res.cloudinary.com/dw5rvx9m6/image/upload/v1591449979/bilinis_lnn73y.jpg')
+INSERT INTO dbo.familylRecipes (username,recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
+VALUES ('iris','2', 'Mother','Blinis','Holiday','Whisk milk, 1 cup plus 3 tablespoons flour, eggs, and sugar together in a bowl. Add 1/4 cup melted butter; whisk well. Let batter sit, 15 to 20 minutes. Bring a pot of water to a boil. Add beef; cook until no longer pink, 5 to 7 minutes. Drain. Chop the boiled beef finely until even in texture. Heat 2 tablespoons butter in a skillet over medium-low heat. Add onion and cook, while stirring, until soft and golden, about 10 minutes. Increase heat to medium and add the chopped beef, salt, and pepper. Cook and stir filling until flavors combine, about 10 minutes. Heat oil in a nonstick or cast-iron skillet over medium heat. Pour 3 to 4 tablespoons of batter into the skillet and quickly rotate the skillet to spread batter out in a thin layer. Cook until edges are brown, 1 to 2 minutes. Run a spatula around the edge of the skillet to loosen blini; flip and cook until the other side has turned light brown, about 1 minute more. Repeat with remaining batter. Spread 2 tablespoons beef filling on 1 side of each blini. Fold edges over filling and roll blini up. Repeat with remaining filling and blini.','https://res.cloudinary.com/dw5rvx9m6/image/upload/v1591449979/bilinis_lnn73y.jpg')
 GO
 
-INSERT INTO familyRecipes (recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
-VALUES ('3', 'GrandMother','Russian Beet and Potato Salad','Novigod','Bring a large pot of water to a boil, and cook beets until tender, about 30 minutes. Bring a separate pot of water to a boil and cook potatoes and carrots until tender, about 20 minutes. Drain vegetables, cool, and remove skins. Dice and place in a large bowl. Place the diced pickles in the bowl with beets, potatoes, and carrots. Drizzle the olive oil and vinegar over the mixture and toss to coat. Season with salt. Sprinkle with green onions. Chill completely before serving.Place the diced pickles in the bowl with beets, potatoes, and carrots. Drizzle the olive oil and vinegar over the mixture and toss to coat. Season with salt. Sprinkle with green onions. Chill completely before serving.','https://res.cloudinary.com/dw5rvx9m6/image/upload/v1591449979/beet_and_potato_zbfjfb.jpg')
+INSERT INTO dbo.familylRecipes (username,recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
+VALUES ('iris','3', 'GrandMother','Russian Beet and Potato Salad','Novigod','Bring a large pot of water to a boil, and cook beets until tender, about 30 minutes. Bring a separate pot of water to a boil and cook potatoes and carrots until tender, about 20 minutes. Drain vegetables, cool, and remove skins. Dice and place in a large bowl. Place the diced pickles in the bowl with beets, potatoes, and carrots. Drizzle the olive oil and vinegar over the mixture and toss to coat. Season with salt. Sprinkle with green onions. Chill completely before serving.Place the diced pickles in the bowl with beets, potatoes, and carrots. Drizzle the olive oil and vinegar over the mixture and toss to coat. Season with salt. Sprinkle with green onions. Chill completely before serving.','https://res.cloudinary.com/dw5rvx9m6/image/upload/v1591449979/beet_and_potato_zbfjfb.jpg')
 GO
 
-INSERT INTO familyRecipes (recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
-VALUES ('4', 'GrandMother','Cuba beet','Holidays','Prepare the mantle: Soak the semolina in water with salt. Let the water soak for half an hour and then put in hands to make dough (note that it is impossible to accurately measure the amount of water needed, feel the dough. If you think it is dry add a little water).
+INSERT INTO dbo.familylRecipes (username,recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
+VALUES ('chen','4', 'GrandMother','Cuba beet','Holidays','Prepare the mantle: Soak the semolina in water with salt. Let the water soak for half an hour and then put in hands to make dough (note that it is impossible to accurately measure the amount of water needed, feel the dough. If you think it is dry add a little water).
 Prepare the stuffing: Heat a frying pan with oil and steam in the shade for 3 minutes until it becomes transparent. Add the meat and chicken and fry for about 5 minutes, stirring until the meat crumbles and changes color. Add spices and parsley, taste, seasoning and transfer to a bowl for cooling. With wet hands, ping pong balls (40 grams each) are pinched from the dough. Flatten each ball into a kind of pita, place in the center a teaspoon of stuffing, bow the hand and close the ball. Prepare the soup: Onion in a large saucepan with oil for 3 minutes (no gilding needed). Add carrots and celery, beets, spices and mash and mix. Add water and bring to a boil. Cook for 15 minutes, taste and adjust seasoning as needed. Add the lemon.
 Add the cube balls into the boiling broth, lower the flame and cook for an hour.','https://res.cloudinary.com/dw5rvx9m6/image/upload/v1591449981/kube_selek_gkbcg5.jpg')
 GO
 
-INSERT INTO familyRecipes (recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
-VALUES ('5', 'GrandMother','Iraqi Tbith','Weekend',' Begin the initial cooking of the rice: Heat a little oil in the pot, add the rice and stir. Add the water, bring to a boil and add the rice. Cover the pot with a towel and over it close the lid. Reduce and cook for about 20 minutes.
+INSERT INTO dbo.familylRecipes (username,recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
+VALUES ('chen','5', 'GrandMother','Iraqi Tbith','Weekend',' Begin the initial cooking of the rice: Heat a little oil in the pot, add the rice and stir. Add the water, bring to a boil and add the rice. Cover the pot with a towel and over it close the lid. Reduce and cook for about 20 minutes.
  In a non-stick pan over medium flame, heat a little oil and pat the onion with a little salt until golden brown.
  Remove the onion to the plate, increase the flame and in the same pot fry the chicken chunks on both sides until golden.
 You can fry with a half-open lid to avoid the boiling oil that splashes. Remove the chunks of chicken to the plate and with the aid of absorbent paper remove the skin from the chicken.
@@ -150,8 +152,8 @@ Add half a cup of water, cover with towel and close with lid. Place the pot on h
 You can continue in two ways: continue to cook on low heat for 5-4 hours or turn off the fire, let the pot cool, place in the refrigerator, and continue cooking the next day on hot plate or on low heat for about 5 hours. When the tab comes out of the fire, place a tray or serving plate larger in diameter than the pot diameter, grasp the tray with the pot handles and flip over. Remove the pot from the cake and serve.','https://res.cloudinary.com/dw5rvx9m6/image/upload/v1591449981/tbit_nxixgr.jpg')
 GO
 
-INSERT INTO familyRecipes (recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
-VALUES ('6', 'GrandMother','Kahi ','Shavuot','Put flour into bowl and add salt. Make a hole in flour and pour a glass of lukewarm water. Mix the water and flour with your hands and slowly add half the extra glass of water if needed. The dough should be relatively flexible and not liquid. Put it on for another five minutes, cover with towel and leave for 1 hour at room temperature.
+INSERT INTO dbo.familylRecipes (username,recipeId, ownerRecipe, recipeTitle,periodRecipe,instructions, recipeImage)
+VALUES ('chen','6', 'GrandMother','Kahi ','Shavuot','Put flour into bowl and add salt. Make a hole in flour and pour a glass of lukewarm water. Mix the water and flour with your hands and slowly add half the extra glass of water if needed. The dough should be relatively flexible and not liquid. Put it on for another five minutes, cover with towel and leave for 1 hour at room temperature.
 Remove the dough from the bowl and divide into 8 balls. Cover with towel and refrigerate for at least two hours (up to 4 hours).
 Remove the dough circles from the refrigerator, floss a work surface and open a ball for a thin, large circle.
 On 2/3 of the circle, spread soft butter and fold over the smeared side and close with the "dry" dough.
@@ -202,13 +204,14 @@ CREATE TABLE [dbo].[personalRecipes](
 GO
 
 CREATE TABLE [dbo].[familylRecipes](
+    username  [NVARCHAR] (300) NOT NULL,
 	recipeId [NVARCHAR] (300) NOT NULL,
 	ownerRecipe [NVARCHAR](300) NOT NULL,
 	recipeTitle [NVARCHAR](300) NOT NULL,
     periodRecipe [NVARCHAR](300) NOT NULL,
-    instructions [NVARCHAR](300) NOT NULL,
+    instructions [text] NOT NULL,
     recipeImage  [NVARCHAR](300) NOT NULL, 
-	PRIMARY KEY (recipeId, ownerRecipe),
+	PRIMARY KEY (recipeId, ownerRecipe,username),
 
 );
 GO

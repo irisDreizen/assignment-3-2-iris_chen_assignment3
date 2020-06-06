@@ -73,11 +73,66 @@ function createArrayOfFavoriteRecipes(myFavorites){
 }
 
 exports.createArrayOfFavoriteRecipes=createArrayOfFavoriteRecipes;
+exports.getMyFamilyRecipes=getMyFamilyRecipes;
 
+
+async function getMyFamilyRecipes(username){
+    var MyFamilyRecipes= await DButils.execQuery(`SELECT * FROM dbo.familylRecipes WHERE username='${username}'`);
+    var familylRecipes=await extractFamilyData(MyFamilyRecipes,username);
+    return familylRecipes;
+}
 async function getMyRecipes_preview(username){
     const myRecipes= await DButils.execQuery(`SELECT * FROM dbo.personalRecipes WHERE username='${username}'`);
     return extractData_preview(myRecipes);
 }
+
+async function extractFamilyData(recipes_Info,username){
+        let recipeId;
+        let recipeTitle;
+        let recipeTime;
+        let recipeVegiterian;
+        let recipeVegan;
+        let recipeGlutenFree;
+        let recipeImage;
+        let recipeInstructions;
+        let recipeNumOfMeals;
+        let arrayToReturn = [];
+        for(var i=0;i<recipes_Info.length;i++){
+                recipeId = recipes_Info[i].recipeId;
+                ownerRecipe=recipes_Info[i].ownerRecipe;
+                recipeTitle = recipes_Info[i].recipeTitle;
+                periodRecipe = recipes_Info[i].periodRecipe;
+                instructions = recipes_Info[i].instructions;
+                recipeImage = recipes_Info[i].recipeImage;
+    
+                arrayToReturn.push({
+                    id: recipeId,
+                    ownerRecipe: ownerRecipe,
+                    title: recipeTitle,
+                    periodRecipe: periodRecipe,
+                    instructions: instructions, 
+                    image: recipeImage,
+                    Ingredients: await getOnlyIngrediantsFamily(username,recipeId),
+                    instructions: recipeInstructions, 
+                });
+        }
+        return arrayToReturn;
+         
+        
+}
+
+async function getOnlyIngrediantsFamily(username,recipeId){
+    const myRecipesIngrediants= await DButils.execQuery(`SELECT * FROM dbo.familyRecipesIngredients WHERE recipeId='${recipeId}'`);
+    let allIngerdiantsArray = [];
+    for(var i=0; i<myRecipesIngrediants.length; i++){
+        allIngerdiantsArray.push({
+            name_and_amount: myRecipesIngrediants[i].recipeIngrediant
+        });
+    }
+ 
+    return allIngerdiantsArray;
+}
+
 
 function extractData_preview(recipes_Info){
     return recipes_Info.map((recipe_info) => {

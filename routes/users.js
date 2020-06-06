@@ -76,6 +76,17 @@ router.get('/myFavorites', async (req, res) => {//chen
 });
 
 
+router.get('/myFamilyRecepies',async (req, res) => {//chen
+    try{
+        var myFamilyRecipes=await users_util.getMyFamilyRecipes(req.user[0].username);
+        res.send(myFamilyRecipes);
+    }  catch (error) {
+        next(error);
+    }
+
+   
+});
+
 router.get('/myRecepies/getPreview',async (req, res) => {//chen
     var myRecipes=await users_util.getMyRecipes_preview(req.user[0].username);
     res.send(myRecipes);
