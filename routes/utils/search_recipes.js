@@ -200,6 +200,14 @@ function extractSearchResultsData_fullRecipe(recipes_Info){
 }
 
 function getOnlyIngrediants(fullIngrediants){
+    // let original;
+    // let arrayToReturn = [];
+    // for(var i=0; i<fullIngrediants; i++){
+    //     original = fullIngrediants[i].original;
+    //     arrayToReturn.push({
+    //         original: original})
+    // }
+
     return fullIngrediants.map((ingrediant_info) => {
         const {
             original,

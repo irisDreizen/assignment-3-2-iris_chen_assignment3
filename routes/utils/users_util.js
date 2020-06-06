@@ -106,48 +106,88 @@ function extractData_preview(recipes_Info){
 async function getMyRecipes_full(username){
     const myRecipes= await DButils.execQuery(`SELECT * FROM dbo.personalRecipes WHERE username='${username}'`);
     const jsonWithoutInstructions =extractData_full(myRecipes,username);
+    return jsonWithoutInstructions;
 }
 
-function extractData_full(recipes_Info, username){
-    return recipes_Info.map((recipe_info) => {
-        const {
-            recipeId,
-            recipeTitle,
-            recipeTime,
-            recipeVegiterian,
-            recipeVegan,
-            recipeGlutenFree,
-            recipeImage,
-            recipeInstructions, 
-            recipeNumOfMeals
-        } = recipe_info;
-        return {
-            id: recipeId,
-            title: recipeTitle,
-            readyInMinutes: recipeTime,
-            vegetarian: recipeVegiterian,
-            vegan: recipeVegan,
-            glutenFree: recipeGlutenFree,
-            image: recipeImage,
-            Ingredients:getOnlyIngrediants(username) ,
-            instructions: recipeInstructions, 
-            servings: recipeNumOfMeals 
-        };
-    });
-}
+async function extractData_full(recipes_Info, username){
+    // let ingrediants = await getOnlyIngrediants(username);
+    let recipeId;
+    let recipeTitle;
+    let recipeTime;
+    let recipeVegiterian;
+    let recipeVegan;
+    let recipeGlutenFree;
+    let recipeImage;
+    let recipeInstructions;
+    let recipeNumOfMeals;
+    let arrayToReturn = [];
+    for(var i=0;i<recipes_Info.length;i++){
+            recipeId = recipes_Info[i].recipeId;
+            recipeTitle = recipes_Info[i].recipeTitle;
+            recipeTime = recipes_Info[i].recipeTime;
+            recipeVegiterian = recipes_Info[i].recipeVegiterian;
+            recipeVegan = recipes_Info[i].recipeVegan;
+            recipeGlutenFree = recipes_Info[i].recipeGlutenFree;
+            recipeImage = recipes_Info[i].recipeImage;
+            recipeInstructions = recipes_Info[i].recipeInstructions;
+            recipeNumOfMeals = recipes_Info[i].recipeNumOfMeals;
 
-async function getOnlyIngrediants (username){
-    const myRecipesIngrediants= await DButils.execQuery(`SELECT * FROM dbo.personalRecipesIngredients WHERE username='${username}'`);
-    return myRecipesIngrediants.map((ingrediant_info) => {
-        const {
-            recipeIngrediant,
-        } = ingrediant_info;
+            arrayToReturn.push({
+                id: recipeId,
+                title: recipeTitle,
+                readyInMinutes: recipeTime,
+                vegetarian: recipeVegiterian,
+                vegan: recipeVegan,
+                glutenFree: recipeGlutenFree,
+                image: recipeImage,
+                Ingredients: await getOnlyIngrediants(username,recipeId),
+                instructions: recipeInstructions, 
+                servings: recipeNumOfMeals 
+            });
+    }
+    return arrayToReturn;
+     
+    }
 
+//     return recipes_Info.map((recipe_info) => {
+//         const {
+//             recipeId,
+//             recipeTitle,
+//             recipeTime,
+//             recipeVegiterian,
+//             recipeVegan,
+//             recipeGlutenFree,
+//             recipeImage,
+//             recipeInstructions, 
+//             recipeNumOfMeals
+//         } = recipe_info;
+//         let ingrediants = await getOnlyIngrediants(username);
+//         return {
+//             id: recipeId,
+//             title: recipeTitle,
+//             readyInMinutes: recipeTime,
+//             vegetarian: recipeVegiterian,
+//             vegan: recipeVegan,
+//             glutenFree: recipeGlutenFree,
+//             image: recipeImage,
+//             Ingredients: ingrediants,
+//             instructions: recipeInstructions, 
+//             servings: recipeNumOfMeals 
+//         };
+//     });
+// }
 
-        return {
-            name_and_amount: recipeIngrediant,
-        };
-    });
+async function getOnlyIngrediants(username, recipeId){
+    const myRecipesIngrediants= await DButils.execQuery(`SELECT * FROM dbo.personalRecipesIngredients WHERE username='${username}' AND recipeId='${recipeId}'`);
+    let allIngerdiantsArray = [];
+    for(var i=0; i<myRecipesIngrediants.length; i++){
+        allIngerdiantsArray.push({
+            name_and_amount: myRecipesIngrediants[i].recipeIngrediant
+        });
+    }
+    console.log("i will return ingrediants array:");
+    console.log(allIngerdiantsArray);
+    return allIngerdiantsArray;
 }
 
 

@@ -17,6 +17,8 @@ exports.execQuery = async function (query) {
   var result = undefined;
   try {
     pool = await sql.connect(config);
+    console.log("my query is:");
+    console.log(query);
     result = await pool.request().query(query);
     console.log("i made the query well");
     return result.recordset;
