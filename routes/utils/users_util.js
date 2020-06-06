@@ -136,7 +136,7 @@ function extractData_full(recipes_Info, username){
     });
 }
 
-function getOnlyIngrediants(username){
+async function getOnlyIngrediants (username){
     const myRecipesIngrediants= await DButils.execQuery(`SELECT * FROM dbo.personalRecipesIngredients WHERE username='${username}'`);
     return myRecipesIngrediants.map((ingrediant_info) => {
         const {
