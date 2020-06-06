@@ -15,17 +15,17 @@ var app = express();
 app.use(logger("dev")); //logger
 app.use(express.json()); // parse application/json
 
-router.use(async(req, res, next) => {
-    if(req.session && req.session.id){
-        const id = req.session.id;
-        const user =  await users_util.checkIfUserInDB(id);
-        if(user){
-             req.user = user;
-            next();
-        }
-    }
-    else {res.sendStatus(401);}
-});
+// router.use(async(req, res, next) => {
+//     if(req.session && req.session.id){
+//         const id = req.session.id;
+//         const user =  await users_util.checkIfUserInDB(id);
+//         if(user){
+//              req.user = user;
+//             next();
+//         }
+//     }
+//     else {res.sendStatus(401);}
+// });
 
 
 
@@ -65,6 +65,8 @@ router.get('/myRecepies/getPreview',async (req, res) => {//chen
 });
 
 router.get('/myRecepies/getFullRecipe',async (req, res) => {//chen
+    let id = "296C95B5-D8FA-478B-AF45-3C2AF3897F09";
+    req.user = await DButils.execQuery(`SELECT * FROM dbo.Users WHERE user_id = '${id}'`) 
     var myRecipes=await users_util.getMyRecipes_full(req.user[0].username);
     res.send(myRecipes); 
 });

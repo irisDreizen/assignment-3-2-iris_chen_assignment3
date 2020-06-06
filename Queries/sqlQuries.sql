@@ -76,6 +76,10 @@ INSERT INTO personalRecipesIngredients (recipeId, username,recipeIngrediant)
 VALUES ('123', 'en','batata')
 GO
 
+INSERT INTO personalRecipesIngredients (recipeId, username,recipeIngrediant)
+VALUES ('123', 'en','potato')
+GO
+
 INSERT INTO UsersHistoryRecieps(recipeId,username)
 VALUES('638038','en')
 GO
@@ -98,6 +102,9 @@ GO
 
 
 
+INSERT INTO Users (username, firstname, lastname, country, userPassword, email, photoUser)
+VALUES ('en', 'chen', 'avra', 'israel', '1234', 'ch@12.com','cscs@.com');
+GO
 
 
 
