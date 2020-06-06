@@ -64,7 +64,17 @@ INSERT INTO UsersAndRecieps(username, recipeId, watched, saveFavorites)
 VALUES ('en', '638038', 1, 1);
 GO
 
+INSERT INTO personalRecipes (recipeId, username, recipeTitle, recipeImage, recipeTime, recipeVegan, recipeVegiterian, recipeGlutenFree, recipeInstructions, recipeNumOfMeals)
+VALUES ('123', 'en', 'a', 'b','b1',7,6,7,'f',5)
+GO
 
+INSERT INTO personalRecipes (recipeId, username, recipeTitle, recipeImage, recipeTime,recipeVegan, recipeVegiterian, recipeGlutenFree, recipeInstructions, recipeNumOfMeals)
+VALUES ('124', 'en', 'a', 'b','b1',7,6,7,'f',5)
+GO
+
+INSERT INTO personalRecipesIngredients (recipeId, username,recipeIngrediant)
+VALUES ('123', 'en','batata')
+GO
 
 INSERT INTO UsersHistoryRecieps(recipeId,username)
 VALUES('638038','en')
@@ -99,26 +109,24 @@ CREATE TABLE [dbo].[personalRecipes](
 	recipeTitle [NVARCHAR](300) NOT NULL,
     recipeImage [NVARCHAR](300) NOT NULL,
     recipeTime [NVARCHAR](300) NOT NULL,
-    recipeLikes [NVARCHAR](300) NOT NULL,
-    recipeVegan [NVARCHAR](300) NOT NULL,
-    recipeVegiterian [int] NOT NULL,
-    recipeGlutenFree [int] NOT NULL,
+    recipeVegan [int] DEFAULT 0,
+    recipeVegiterian [int] DEFAULT 0,
+    recipeGlutenFree [int] DEFAULT 0,
     recipeInstructions [text] NOT NULL,
-    recipeNumOfMeals [NVARCHAR](300) NOT NULL,
+    recipeNumOfMeals [int] NOT NULL,
 	PRIMARY KEY (recipeId, username),
 
 );
 GO
 
 CREATE TABLE [dbo].[familylRecipes](
-	recipeId [NVARCHAR] (50) NOT NULL,
-	ownerRecipe [NVARCHAR](50) NOT NULL,
+	recipeId [NVARCHAR] (300) NOT NULL,
+	ownerRecipe [NVARCHAR](300) NOT NULL,
 	recipeTitle [NVARCHAR](300) NOT NULL,
     periodRecipe [NVARCHAR](300) NOT NULL,
     ingredients [NVARCHAR](300) NOT NULL,
     instructions [NVARCHAR](300) NOT NULL,
-    recipeVegan [NVARCHAR](300) NOT NULL,
-   
+    recipeImage  [NVARCHAR](300) NOT NULL, 
 	PRIMARY KEY (recipeId, ownerRecipe),
 
 );
@@ -126,8 +134,8 @@ GO
 
 
 CREATE TABLE [dbo].[personalRecipesIngredients](
-	recipeId [NVARCHAR] (50) NOT NULL,
-	username [NVARCHAR](50) NOT NULL,
+	recipeId [NVARCHAR](300) NOT NULL,
+	username [NVARCHAR](300) NOT NULL,
 	recipeIngrediant [NVARCHAR](300) NOT NULL,
 	PRIMARY KEY (recipeId, username),
 
@@ -135,5 +143,12 @@ CREATE TABLE [dbo].[personalRecipesIngredients](
 GO
 
 
+CREATE TABLE [dbo].[familyRecipesIngredients](
+	recipeId [NVARCHAR] (300) NOT NULL,
+	ownerRecipe [NVARCHAR](300) NOT NULL,
+	recipeIngrediant [NVARCHAR](300) NOT NULL,
+	PRIMARY KEY (recipeId, ownerRecipe),
 
+);
+GO
 

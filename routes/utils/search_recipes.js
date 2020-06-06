@@ -1,6 +1,6 @@
 const axios = require("axios");
 const api_url = "https://api.spoonacular.com/recipes";
-const api_key = "apiKey=570f1120b25b4810b76edcbba14a0fb7";
+const api_key = "apiKey=046cba80a07b450b8e93728a027e9901";
 
 // *********search for recipe*************
 function extractQureryParams(query_params, search_params){
@@ -28,8 +28,8 @@ async function searchForRecipes(search_params){
 }
 
 function extractSearchResultsIds(search_response){
-    console.log("i'm in extractSearchResultsIds");
-    console.log(search_response.data.results);
+    // console.log("i'm in extractSearchResultsIds");
+    // console.log(search_response.data.results);
     let recipes = search_response.data.results;
     recipes_id_list = [];
     recipes.map((recipe) => {
@@ -43,24 +43,23 @@ function extractSearchResultsIds(search_response){
 // ********get three random recipes**********
 
 async function searchForRandomRecipes(search_params){
-    console.log("i'm in searchForRandomRecipes");
-    console.log(search_params);
-    let search_response = await axios.get(
-        `${api_url}/random?${api_key}`,
-        {
-            params: search_params,
-        }
-    );
-    console.log("search response parameters:");
-    console.log(search_response);
-    const recipes_id_list = extractSearchResultsIds_random(search_response);
-    let info_array = await getRecipesInfo(recipes_id_list);
+    let info_array = false;
+    while(info_array==false){
+        let search_response = await axios.get(
+            `${api_url}/random?${api_key}`,
+            {
+                params: search_params,
+            }
+        );
+        const recipes_id_list = extractSearchResultsIds_random(search_response);
+        info_array = await getRecipesInfo(recipes_id_list);
+    }
     return info_array;
 }
 
 function extractSearchResultsIds_random(search_response){
-    console.log("i'm in extractSearchResultsIds");
-    console.log(search_response.data.recipes);
+    // console.log("i'm in extractSearchResultsIds");
+    // console.log(search_response.data.recipes);
     let recipes = search_response.data.recipes;
     recipes_id_list = [];
     recipes.map((recipe) => {
@@ -88,7 +87,7 @@ async function searchForRecipesByID(search_params){
     let info_response = await Promise.all(promises);
     console.log("info response is:");
     console.log(info_response);
-    relevantRecipes = extractSearchResultsData_fullRecipe(info_response);
+    let relevantRecipes = extractSearchResultsData_fullRecipe(info_response);
     return relevantRecipes;
 }
 
@@ -98,15 +97,34 @@ async function searchForRecipesByID(search_params){
 
 async function getRecipesInfo(recipes_id_list){
     let promises = [];
-    console.log("recipe ids are:" + recipes_id_list);
+    // console.log("recipe ids are:" + recipes_id_list);
     recipes_id_list.map((id) => 
     promises.push(axios.get(`${api_url}/${id}/information?${api_key}`))
     );
     let info_response1 = await Promise.all(promises);
-    console.log("i'm in getRecipesInfo");
-    relevantRecipes = extractSearchResultsData(info_response1);
+     console.log("i'm in getRecipesInfo");
+    if(!checkIfHasInstructions(info_response1)){
+        return false;
+    }
+    let relevantRecipes = extractSearchResultsData(info_response1);
     return relevantRecipes;
 }
+
+function checkIfHasInstructions(info_response1){
+    let recipes = info_response1;
+    let recipes_instructions_list = [];
+    recipes.map((recipe) => {
+        recipes_instructions_list.push(recipe.data.instructions);
+    });
+    if(recipes_instructions_list.length!=3){
+        return false;
+    }
+    else{
+        return true;
+    }
+
+}
+
 function extractSearchResultsData(recipes_Info){
     return recipes_Info.map((recipe_info) => {
         const {

@@ -38,10 +38,6 @@ router.get("/recipeInfo/:ids", async(req,res) => {//chen
 });
 
 
-
-
-
-
 router.get('/threeLastRecipes', async(req, res) => {//chen
     var arrayLastThreeRecipes=await users_util.getLastThreeRecipes(req.user[0].username);
     var toSend=await search_util.getRecipesInfo(arrayLastThreeRecipes);
@@ -62,12 +58,20 @@ router.get('/myFavorites', async(req, res) => {//chen
 
 });
 
-router.get('/myRecepies', (req, res) => {//chen
-    
+
+router.get('/myRecepies/getPreview',async (req, res) => {//chen
+    var myRecipes=await users_util.getMyRecipes_preview(req.user[0].username);
+    res.send(myRecipes);
+});
+
+router.get('/myRecepies/getFullRecipe',async (req, res) => {//chen
+    var myRecipes=await users_util.getMyRecipes_full(req.user[0].username);
+    res.send(myRecipes); 
 });
 
 router.post('/addNewRecipeToFavorites',async (req, res) => {//chen
     let answer =await users_util.checkIfUserInUsersAndRecipesTable(req.user[0].username);
+    let users2 = await DButils.execQuery(`INSERT INTO dboUsersHistoryRecieps (username, recipeId) VALUES ('${req.user[0].username}','${req.body.id}')`);
     if(answer){
         let users = await DButils.execQuery(`UPDATE dbo.UsersAndRecieps SET saveFavorites=1 WHERE username='${req.user[0].username}'`);
         res.send("updated user");    
@@ -79,10 +83,6 @@ router.post('/addNewRecipeToFavorites',async (req, res) => {//chen
     }
 
 });
-
-
-
-
 
 
 
