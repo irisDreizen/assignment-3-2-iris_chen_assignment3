@@ -74,9 +74,89 @@ function createArrayOfFavoriteRecipes(myFavorites){
 
 exports.createArrayOfFavoriteRecipes=createArrayOfFavoriteRecipes;
 
+async function getMyRecipes_preview(username){
+    const myRecipes= await DButils.execQuery(`SELECT * FROM dbo.personalRecipes WHERE username='${username}'`);
+    return extractData_preview(myRecipes);
+}
+
+function extractData_preview(recipes_Info){
+    return recipes_Info.map((recipe_info) => {
+        const {
+            recipeId,
+            recipeTitle,
+            recipeTime,
+            recipeVegiterian,
+            recipeVegan,
+            recipeGlutenFree,
+            recipeImage,
+        } = recipe_info;
+        return {
+            id: recipeId,
+            title: recipeTitle,
+            readyInMinutes: recipeTime,
+            vegetarian: recipeVegiterian,
+            vegan: recipeVegan,
+            glutenFree: recipeGlutenFree,
+            image: recipeImage,
+        };
+    });
+}
+
+
+async function getMyRecipes_full(username){
+    const myRecipes= await DButils.execQuery(`SELECT * FROM dbo.personalRecipes WHERE username='${username}'`);
+    const jsonWithoutInstructions =extractData_full(myRecipes,username);
+}
+
+function extractData_full(recipes_Info, username){
+    return recipes_Info.map((recipe_info) => {
+        const {
+            recipeId,
+            recipeTitle,
+            recipeTime,
+            recipeVegiterian,
+            recipeVegan,
+            recipeGlutenFree,
+            recipeImage,
+            recipeInstructions, 
+            recipeNumOfMeals
+        } = recipe_info;
+        return {
+            id: recipeId,
+            title: recipeTitle,
+            readyInMinutes: recipeTime,
+            vegetarian: recipeVegiterian,
+            vegan: recipeVegan,
+            glutenFree: recipeGlutenFree,
+            image: recipeImage,
+            Ingredients:getOnlyIngrediants(username) ,
+            instructions: recipeInstructions, 
+            servings: recipeNumOfMeals 
+        };
+    });
+}
+
+function getOnlyIngrediants(username){
+    const myRecipesIngrediants= await DButils.execQuery(`SELECT * FROM dbo.personalRecipesIngredients WHERE username='${username}'`);
+    return myRecipesIngrediants.map((ingrediant_info) => {
+        const {
+            recipeIngrediant,
+        } = ingrediant_info;
+
+
+        return {
+            name_and_amount: recipeIngrediant,
+        };
+    });
+}
+
+
+
+
 exports.getMyFavoriteRecipes=getMyFavoriteRecipes;
 exports.getLastThreeRecipes=getLastThreeRecipes;
-
+exports.getMyRecipes_preview=getMyRecipes_preview;
+exports.getMyRecipes_full=getMyRecipes_full;
 exports.getUserInfoOnRecipes=getUserInfoOnRecipes;
 
 exports.checkIfUserInDB=checkIfUserInDB;
