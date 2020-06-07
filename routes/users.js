@@ -79,7 +79,7 @@ router.get('/myFavorites', async (req, res) => {//chen
 router.get('/myFamilyRecepies',async (req, res) => {//chen
     try{
         var myFamilyRecipes=await users_util.getMyFamilyRecipes(req.user[0].username);
-        res.send(myFamilyRecipes);
+        res.staus(200).send(myFamilyRecipes);
     }  catch (error) {
         next(error);
     }

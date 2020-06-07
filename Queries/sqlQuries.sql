@@ -93,7 +93,7 @@ GO
 
 
 
-DELETE FROM Users WHERE username='chen';
+DELETE FROM Users WHERE username='iris';
 
 
 SELECT * FROM dbo.familylRecipes WHERE username='chen';
