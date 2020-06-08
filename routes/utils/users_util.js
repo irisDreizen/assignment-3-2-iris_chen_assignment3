@@ -74,8 +74,15 @@ function createArrayOfFavoriteRecipes(myFavorites){
 
 exports.createArrayOfFavoriteRecipes=createArrayOfFavoriteRecipes;
 exports.getMyFamilyRecipes=getMyFamilyRecipes;
+exports.getMyFamilyRecipesPreview=getMyFamilyRecipesPreview;
 
 
+
+async function getMyFamilyRecipesPreview(username){
+    var MyFamilyRecipesPreview= await DButils.execQuery(`SELECT recipeId, ownerRecipe, recipeTitle,recipeImage FROM dbo.familylRecipes WHERE username='${username}'`);
+    var familylRecipes= extractFamilyDataPreview(MyFamilyRecipesPreview,username);
+    return familylRecipes;
+}
 async function getMyFamilyRecipes(username){
     var MyFamilyRecipes= await DButils.execQuery(`SELECT * FROM dbo.familylRecipes WHERE username='${username}'`);
     var familylRecipes=await extractFamilyData(MyFamilyRecipes,username);
@@ -86,23 +93,45 @@ async function getMyRecipes_preview(username){
     return extractData_preview(myRecipes);
 }
 
+ function extractFamilyDataPreview(recipes_Info,username){
+    let recipeId;
+    let ownerRecipe;
+    let recipeTitle;
+    let recipeImage;
+    let arrayToReturn = [];
+    for(var i=0;i<recipes_Info.length;i++){
+            recipeId = recipes_Info[i].recipeId;
+            ownerRecipe=recipes_Info[i].ownerRecipe;
+            recipeTitle = recipes_Info[i].recipeTitle;
+            recipeImage = recipes_Info[i].recipeImage;
+
+            arrayToReturn.push({
+                id: recipeId,
+                ownerRecipe: ownerRecipe,
+                title: recipeTitle,
+                image: recipeImage,
+            });
+    }
+    return arrayToReturn;
+     
+    
+}
+
+
 async function extractFamilyData(recipes_Info,username){
         let recipeId;
+        let ownerRecipe
         let recipeTitle;
-        let recipeTime;
-        let recipeVegiterian;
-        let recipeVegan;
-        let recipeGlutenFree;
+        let periodRecipe;
+        let instructions;
         let recipeImage;
-        let recipeInstructions;
-        let recipeNumOfMeals;
         let arrayToReturn = [];
         for(var i=0;i<recipes_Info.length;i++){
                 recipeId = recipes_Info[i].recipeId;
                 ownerRecipe=recipes_Info[i].ownerRecipe;
                 recipeTitle = recipes_Info[i].recipeTitle;
                 periodRecipe = recipes_Info[i].periodRecipe;
-                instructions = recipes_Info[i].instructions;
+                recipeInstructions = recipes_Info[i].instructions;
                 recipeImage = recipes_Info[i].recipeImage;
     
                 arrayToReturn.push({
