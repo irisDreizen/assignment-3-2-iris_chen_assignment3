@@ -13,7 +13,7 @@ function extractQureryParams(query_params, search_params){
     });
 }
 
-async function searchForRecipes(search_params){
+async function searchForRecipes(search_params,numOfRecipes){
     console.log("i'm in searchForRecipe");
     console.log(search_params);
     let search_response = await axios.get(
@@ -23,7 +23,7 @@ async function searchForRecipes(search_params){
         }
     );
     const recipes_id_list = extractSearchResultsIds(search_response);
-    let info_array = await getRecipesInfo(recipes_id_list);
+    let info_array = await getRecipesInfo(recipes_id_list,numOfRecipes);
     return info_array;
 }
 
@@ -52,7 +52,7 @@ async function searchForRandomRecipes(search_params){
             }
         );
         const recipes_id_list = extractSearchResultsIds_random(search_response);
-        info_array = await getRecipesInfo(recipes_id_list);
+        info_array = await getRecipesInfo(recipes_id_list,3);
     }
     return info_array;
 }
@@ -95,7 +95,7 @@ async function searchForRecipesByID(search_params){
 
 // ********parsing data for recipe preview*************
 
-async function getRecipesInfo(recipes_id_list){
+async function getRecipesInfo(recipes_id_list,numOfRecipes){
     let promises = [];
     // console.log("recipe ids are:" + recipes_id_list);
     recipes_id_list.map((id) => 
@@ -103,20 +103,20 @@ async function getRecipesInfo(recipes_id_list){
     );
     let info_response1 = await Promise.all(promises);
      console.log("i'm in getRecipesInfo");
-    if(!checkIfHasInstructions(info_response1)){
+    if(!checkIfHasInstructions(info_response1,numOfRecipes)){
         return false;
     }
     let relevantRecipes = extractSearchResultsData(info_response1);
     return relevantRecipes;
 }
 
-function checkIfHasInstructions(info_response1){
+function checkIfHasInstructions(info_response1,numOfRecipes){
     let recipes = info_response1;
     let recipes_instructions_list = [];
     recipes.map((recipe) => {
         recipes_instructions_list.push(recipe.data.instructions);
     });
-    if(recipes_instructions_list.length!=3){
+    if(recipes_instructions_list.length!=numOfRecipes){
         return false;
     }
     else{

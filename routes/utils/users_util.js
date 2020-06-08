@@ -30,9 +30,18 @@ async function getUserInfoOnRecipes(user_name, ids){// access DB `SELECT usernam
     var data={};
     for(var i=0; i<ids.length; i++){
         var userData = await DButils.execQuery(`SELECT watched,saveFavorites FROM dbo.UsersAndRecieps WHERE username='${user_name}' and recipeId='${ids[i]}'`);
-        data[ids[i]]=[];
-        data[ids[i]].push(userData[0].watched);
-        data[ids[i]].push(userData[0].saveFavorites);
+        if(userData.length==0){
+            data[ids[i]]=[];
+            data[ids[i]].push({watched: 0});
+            data[ids[i]].push({saveFavorites: 0});
+
+        }
+        else{
+                data[ids[i]]=[];
+                data[ids[i]].push({watched: userData[0].watched});
+                data[ids[i]].push({saveFavorites: userData[0].saveFavorites});
+        }
+  
 
     }
     return data;
@@ -45,11 +54,16 @@ async function checkIfUserInUsersAndRecipesTable(userName) {
     return toReturn;
 }
 
+async function checkIfRecipeInUsersAndRecipesTable(userName,recipeId) {
+    const recipesId = await DButils.execQuery(`SELECT recipeId FROM dbo.UsersAndRecieps WHERE username='${userName}'`);
+    var toReturn= recipesId.find((x) => x.recipeId === recipeId)
+    return toReturn;
+}
 async function getLastThreeRecipes(username){
     var recipeToReturn=[];
     const LastThreeRecipes1= await DButils.execQuery(`SELECT recipeId, username FROM dbo.UsersHistoryRecieps ORDER BY serialNumber DESC`);
     const userLastRecipe=LastThreeRecipes1.filter((x) => x.username === username);
-    for(var i=0; i<3; i++){
+    for(var i=0; i<userLastRecipe.length; i++){
         recipeToReturn.push(userLastRecipe[i].recipeId);
 
     }
@@ -269,13 +283,12 @@ async function getOnlyIngrediants(username, recipeId){
             name_and_amount: myRecipesIngrediants[i].recipeIngrediant
         });
     }
-    console.log("i will return ingrediants array:");
-    console.log(allIngerdiantsArray);
     return allIngerdiantsArray;
 }
 
 
 
+exports.checkIfRecipeInUsersAndRecipesTable=checkIfRecipeInUsersAndRecipesTable;
 
 exports.getMyFavoriteRecipes=getMyFavoriteRecipes;
 exports.getLastThreeRecipes=getLastThreeRecipes;

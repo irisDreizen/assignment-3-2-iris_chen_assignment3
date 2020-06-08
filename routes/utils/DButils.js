@@ -17,10 +17,7 @@ exports.execQuery = async function (query) {
   var result = undefined;
   try {
     pool = await sql.connect(config);
-    console.log("my query is:");
-    console.log(query);
     result = await pool.request().query(query);
-    console.log("i made the query well");
     return result.recordset;
   } catch (error) {
     throw error;
@@ -29,20 +26,3 @@ exports.execQuery = async function (query) {
   }
 };
 
-// exports.execQuery = function (query) {
-//   return new Promise((resolve, reject) => {
-//     sql
-//       .connect(config)
-//       .then((pool) => {
-//         return pool.request().query(query);
-//       })
-//       .then((result) => {
-//         // console.log(result);
-//         sql.close();
-//         resolve(result.recordsets[0]);
-//       })
-//       .catch((err) => {
-//         // ... error checks
-//       });
-//   });
-// };

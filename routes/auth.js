@@ -30,7 +30,7 @@ router.post('/register', async (req, res, next) => {//chen
             const add= await auth_util.insertNewUserToDB(req,validPassword);
             res.status(201).send({ message: "user created", success: true });        }
         else{
-            res.status(409).send({ message: "Confirmation Password does not match the Password" });
+            res.status(400).send({ message: "Confirmation Password does not match the Password" });
 
         }
 
@@ -50,7 +50,7 @@ router.post('/login', async (req, res, next) => {//chen
         const user = await  auth_util.getUserLogin(users,userLogin);
         // Set cookie
         req.session.id = user.user_id;
-        res.status(200).send({ message: "login succeeded", success: true });
+        res.status(200).send({ message: "successfuly logged in", success: true });
 
     
     } catch (error) {

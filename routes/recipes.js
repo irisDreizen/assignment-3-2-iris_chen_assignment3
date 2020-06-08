@@ -17,17 +17,15 @@ app.use(express.json()); // parse application/json
 
 
 router.get("/search/query/:searchQuery/amount/:num", (req, res) => {//iris
-    console.log("i'm in search function1");
     const{ searchQuery, num } = req.params;
     search_params = {};
     search_params.Query = searchQuery;
     search_params.number = num;
     search_params.instructionsRequired = true;
     search_util.extractQureryParams(req.query,search_params);
-    console.log("i'm in search function5");
     search_util
-    .searchForRecipes(search_params)
-    .then((info_array) => res.send(info_array))
+    .searchForRecipes(search_params,num)
+    .then((info_array) => res.status(200).send(info_array))
     .catch((error) => {
         res.sendStatus(500);
     });
@@ -38,12 +36,11 @@ router.get('/check', (req, res) => {//iris
 });
 
 router.get("/threeRandomRecipies", (req, res) => {//iris
-    console.log("i'm in function1");
     search_params = {};
     search_params.number = 3;
     search_util
     .searchForRandomRecipes(search_params)
-    .then((info_array) => res.send(info_array))
+    .then((info_array) => res.status(200).send(info_array))
     .catch((error) => {
         res.sendStatus(500);
     });
@@ -63,7 +60,7 @@ router.get("/getFullRecipe/:recipeID", async(req, res) => {//iris
     search_util
     //.searchForRecipesByID(search_params)
     .getRecipesInfo_fullRecipe(recipes_id_list)
-    .then((info_array) => res.send(info_array))
+    .then((info_array) => res.status(200).send(info_array))
     .catch((error) => {
         res.sendStatus(500);
     });
@@ -81,8 +78,8 @@ router.get("/getRecipePreview/:recipeID", (req, res) => {//iris
 
     search_util
     //.searchForRecipesByID(search_params)
-    .getRecipesInfo(recipes_id_list)
-    .then((info_array) => res.send(info_array))
+    .getRecipesInfo(recipes_id_list,1)
+    .then((info_array) => res.status(200).send(info_array))
     .catch((error) => {
         res.sendStatus(500);
     });
