@@ -2,6 +2,9 @@
   "name": "assignement-3-2-iris_chen_assignment3",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "12.x"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
