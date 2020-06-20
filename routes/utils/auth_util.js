@@ -11,7 +11,7 @@ const CryptoJS = require("crypto-js");
 require("dotenv").config();
 
 var DButils = require("./DButils")
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptJS");
 
 
 async function getUsersFromDb(){
