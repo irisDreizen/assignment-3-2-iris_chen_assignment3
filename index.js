@@ -38,7 +38,7 @@ const auth = require("./routes/auth");
 // const users_util = require("./utils/users_util");
 
 
-const port = 3000;
+const port = process.env.PORT || "3000";
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 app.use(morgan(":method :url :status :response-time ms"));
