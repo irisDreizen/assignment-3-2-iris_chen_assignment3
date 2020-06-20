@@ -12,7 +12,7 @@ require("dotenv").config();
 var DButils = require("./DButils")
 
 var search_util = require("./search_recipes")
-const bcrypt = require("bcryptJS");
+const bcrypt = require("bcrypt");
 
 
 async function checkIfUserInDB(id) {
