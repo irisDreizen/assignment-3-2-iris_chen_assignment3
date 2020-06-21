@@ -6,13 +6,6 @@ const session = require("client-sessions");
 
 // app.use(cors());
 
-const corsConfig = {
-  origin: true,
-  credentials: true
-};
-
-app.use(cors(corsConfig));
-app.options("*", cors(corsConfig));
 
 
 
@@ -41,6 +34,14 @@ const cookies_options = {
 app.use(express.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
 app.use(cookieParser(process.env.COOKIE_SECRET, cookies_options)); //Parse the cookies into the req.cookies
 app.use(express.static(path.join(__dirname, "public"))); //To serve static files such as images, CSS files, and JavaScript files
+
+const corsConfig = {
+  origin: true,
+  credentials: true
+};
+
+app.use(cors(corsConfig));
+app.options("*", cors(corsConfig));
 
 const users = require("./routes/users");
 const recipes = require("./routes/recipes");
