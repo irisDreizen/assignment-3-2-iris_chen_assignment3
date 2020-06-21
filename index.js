@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const session = require("client-sessions");
-// const cors=require("cors");
+const cors=require("cors");
 
 // app.use(cors());
 
