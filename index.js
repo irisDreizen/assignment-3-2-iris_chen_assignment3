@@ -6,6 +6,16 @@ const session = require("client-sessions");
 
 // app.use(cors());
 
+const corsConfig = {
+  origin: true,
+  credentials: true
+};
+
+app.use(cors(corsConfig));
+app.options("*", cors(corsConfig));
+
+
+
 //#region global imports
 const axios = require("axios");
 const CryptoJS = require("crypto-js");
