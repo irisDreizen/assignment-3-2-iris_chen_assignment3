@@ -30,6 +30,7 @@ const cookies_options = {
   maxAge: 1000 * 60 * 15, // would expire after 15 minutes
   httpOnly: true, // The cookie only accessible by the web server
   signed: true // Indicates if the cookie should be signed
+  
 };
 app.use(express.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
 app.use(cookieParser(process.env.COOKIE_SECRET, cookies_options)); //Parse the cookies into the req.cookies
@@ -60,6 +61,9 @@ app.use(
         duration: 9000000 * 1000,
         activeDuration: 200000 * 1000,
         id: null,
+        cookie:{
+          httpOnly:false
+        }
     })
 );
 
