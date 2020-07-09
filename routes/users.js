@@ -24,7 +24,7 @@ router.use(async (req, res, next) => {
             next();
         }
     }
-    else { res.sendStatus(401); }
+    else { res.sendStatus(401).send("im here"); }
 });
 
 
@@ -153,10 +153,23 @@ router.post('/addNewRecipeToFavorites', async (req, res, next) => {//chen
 
 
 
+
+
+router.post('/addReciepeToHistory', async (req, res, next) => {//chen
+    try {
+
+        let insert =await users_util.checkIfUserInUsersHistoryRecipesTable(req.user[0].username,req.body.id)
+        res.status(200).send("updated succesfully");
+    } catch (error) {
+        next(error);
+    }
+
+});
+
 router.post('/addNewRecipeToWatched', async (req, res, next) => {//chen
     try {
         let answer = await users_util.checkIfUserInUsersAndRecipesTable(req.user[0].username)
-        let users2 = await DButils.execQuery(`INSERT INTO dbo.UsersHistoryRecieps (username, recipeId) VALUES ('${req.user[0].username}','${req.body.id}')`);
+        
 
         if (answer) {
             if (await users_util.checkIfRecipeInUsersAndRecipesTable(req.user[0].username,req.body.id)) {

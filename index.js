@@ -58,8 +58,8 @@ app.use(
     session({
         cookieName: "session",
         secret: "irischen",
-        duration: 9000000 * 1000,
-        activeDuration: 200000 * 1000,
+        duration: 8000 * 1000,
+        activeDuration: 9000 * 1000,
         id: null,
         cookie:{
           httpOnly:false

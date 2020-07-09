@@ -91,7 +91,7 @@ VALUES('661557','en')
 GO
 
 
-
+DELETE FROM dbo.UsersHistoryRecieps;
 
 DELETE FROM Users WHERE username='iris';
 

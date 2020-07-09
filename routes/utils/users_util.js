@@ -48,6 +48,34 @@ async function getUserInfoOnRecipes(user_name, ids){// access DB `SELECT usernam
 
 }
 
+async function checkIfUserInUsersHistoryRecipesTable(userName,id) {
+    const users = await DButils.execQuery("SELECT * FROM dbo.UsersHistoryRecieps");
+    var isExist= users.filter((x) => x.username === userName)
+    if(isExist){
+        const recipes= await DButils.execQuery(`SELECT * FROM dbo.UsersHistoryRecieps WHERE username='${userName}'`);
+        var isRecipeExist= recipes.filter((x) => x.recipeId == id)
+        if(isRecipeExist){//delete
+           const deleted= await DButils.execQuery(`DELETE FROM  dbo.UsersHistoryRecieps WHERE username='${userName}' and recipeId='${id}'`);
+           let insert =await DButils.execQuery(`INSERT INTO dbo.UsersHistoryRecieps (username, recipeId) VALUES ('${userName}','${id}')`);
+           
+
+
+        }
+        else{
+            let insert =await DButils.execQuery(`INSERT INTO dbo.UsersHistoryRecieps (username, recipeId) VALUES ('${userName}','${id}')`);
+
+        }
+
+    }
+    else{
+        let insert =await DButils.execQuery(`INSERT INTO dbo.UsersHistoryRecieps (username, recipeId) VALUES ('${userName}','${id}')`);
+
+    }
+}
+
+exports.checkIfUserInUsersHistoryRecipesTable=checkIfUserInUsersHistoryRecipesTable;
+
+
 async function checkIfUserInUsersAndRecipesTable(userName) {
     const users = await DButils.execQuery("SELECT * FROM dbo.UsersAndRecieps");
     var toReturn= users.find((x) => x.username === userName)
@@ -55,15 +83,15 @@ async function checkIfUserInUsersAndRecipesTable(userName) {
 }
 
 async function checkIfRecipeInUsersAndRecipesTable(userName,recipeId) {
-    const recipesId = await DButils.execQuery(`SELECT recipeId FROM dbo.UsersAndRecieps WHERE username='${userName}'`);
-    var toReturn= recipesId.find((x) => x.recipeId === recipeId)
+    const recipesId = await DButils.execQuery(`SELECT * FROM dbo.UsersAndRecieps WHERE username='${userName}'`);
+    var toReturn= recipesId.filter((x) => x.recipeId == recipeId)
     return toReturn;
 }
 async function getLastThreeRecipes(username){
     var recipeToReturn=[];
     const LastThreeRecipes1= await DButils.execQuery(`SELECT recipeId, username FROM dbo.UsersHistoryRecieps ORDER BY serialNumber DESC`);
     const userLastRecipe=LastThreeRecipes1.filter((x) => x.username === username);
-    for(var i=0; i<userLastRecipe.length; i++){
+    for(var i=0; i<userLastRecipe.length && i<3; i++){
         recipeToReturn.push(userLastRecipe[i].recipeId);
 
     }
