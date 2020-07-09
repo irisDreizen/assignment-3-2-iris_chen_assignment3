@@ -193,10 +193,17 @@ function extractSearchResultsData_fullRecipe(recipes_Info){
             glutenFree: glutenFree,
             image: image,
             Ingredients: getOnlyIngrediants(extendedIngredients),
-            instructions: instructions,
+            instructions: getOnlyStetsOfInstructions(analyzedInstructions),
             servings: servings,
         };
     });
+}
+
+function getOnlyStetsOfInstructions(fullInstructions){
+    let steps=fullInstructions[0].steps;
+    let newStepsArray = [];
+    steps.map((step)=> newStepsArray.push(step.step));
+    return newStepsArray;
 }
 
 function getOnlyIngrediants(fullIngrediants){
