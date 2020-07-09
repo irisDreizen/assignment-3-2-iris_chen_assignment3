@@ -157,6 +157,7 @@ router.post('/addNewRecipeToFavorites', async (req, res, next) => {//chen
 
 router.post('/addReciepeToHistory', async (req, res, next) => {//chen
     try {
+        console.log("im in history");
 
         let insert =await users_util.checkIfUserInUsersHistoryRecipesTable(req.user[0].username,req.body.id)
         res.status(200).send("updated succesfully");
@@ -172,7 +173,9 @@ router.post('/addNewRecipeToWatched', async (req, res, next) => {//chen
         
 
         if (answer) {
-            if (await users_util.checkIfRecipeInUsersAndRecipesTable(req.user[0].username,req.body.id)) {
+            isRecipeExist=await users_util.checkIfRecipeInUsersAndRecipesTable(req.user[0].username,req.body.id);
+
+            if (isRecipeExist.length!=0) {
                 let users = await DButils.execQuery(`UPDATE dbo.UsersAndRecieps SET watched=1 WHERE username='${req.user[0].username}' and recipeId='${req.body.id}'`);
                 res.status(200).send("successfuly saved in watched");
             }
