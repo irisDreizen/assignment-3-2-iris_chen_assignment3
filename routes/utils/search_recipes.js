@@ -1,6 +1,6 @@
 const axios = require("axios");
 const api_url = "https://api.spoonacular.com/recipes";
-const api_key = "apiKey=a170dc867a074ed0b5d1bfe125991ea1";
+const api_key = "apiKey=ce94ce14275d497bafa8cbebd322cbd9";
 
 // *********search for recipe*************
 function extractQureryParams(query_params, search_params){
