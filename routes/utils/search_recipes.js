@@ -177,7 +177,7 @@ function extractSearchResultsData_fullRecipe(recipes_Info){
             glutenFree,
             image,
             extendedIngredients,
-            instructions,
+            analyzedInstructions,
             servings,
 
         } = recipe_info.data;
